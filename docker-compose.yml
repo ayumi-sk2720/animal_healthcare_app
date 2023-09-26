@@ -14,5 +14,5 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - ./:/go/src/app
+      - ./api:/go/src/app
     tty: true
