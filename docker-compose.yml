@@ -32,3 +32,4 @@ services:
       MYSQL_DATABASE: dev # docker-compose構築時に作成されるデータベース
     ports:
       - "3400:3306" # ローカルのMySQLのportと被らないように設定する
+    tty: true
