@@ -13,6 +13,10 @@ ENV GO111MODULE=on
 COPY . .
 EXPOSE 8080
 
-# Airをインストールし、コンテナ起動時に実行する
+# Airをインストールし、コンテナ起動時に実行する(Hot loader)
 RUN go install github.com/cosmtrek/air@latest
+# gorm | https://gorm.io/
+RUN go get -u gorm.io/gorm
+# sqlmigrate
+RUN go install github.com/rubenv/sql-migrate/...@latest
 CMD ["air"]
