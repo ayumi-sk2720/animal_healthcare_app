@@ -14,3 +14,6 @@ restart:
 # webコンテナに入る
 exec-vue:
 	docker-compose exec vue /bin/bash
+	
+exec-api:
+	docker-compose exec api /bin/bash
