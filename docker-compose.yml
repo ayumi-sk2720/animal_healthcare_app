@@ -15,4 +15,20 @@ services:
       - '8080:8080'
     volumes:
       - ./api:/go/src/app
+    environment:
+     - MYSQL_USER=root
+     - MYSQL_PASSWORD=hogehoge
+     - MYSQL_HOST=db
+     - MYSQL_PORT=3306
+     - MYSQL_DATABASE=dev
     tty: true
+  db:
+    image: mysql:5.7
+    restart: always
+    volumes:
+      - ./db/mysql/my.cnf:/etc/mysql/conf.d/my.cnf # mysqlの設定
+    environment:
+      MYSQL_ROOT_PASSWORD: hogehoge # 初期で設定されるパスワード
+      MYSQL_DATABASE: dev # docker-compose構築時に作成されるデータベース
+    ports:
+      - "3400:3306" # ローカルのMySQLのportと被らないように設定する
