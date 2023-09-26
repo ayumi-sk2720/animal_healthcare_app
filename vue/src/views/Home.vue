@@ -17,16 +17,16 @@
 </template>
 
 <script>
-    export default {
-        data () {
-            return {
-            msg: 'This is the top page.'
-            }
-        },
-        methods: {
-            clear () {
-            this.msg = '';
-            }
+export default {
+    data () {
+        return {
+            msg: 'Hello World!'
+        }
+    },
+    methods: {
+        clear () {
+            this.msg = ''
         }
     }
+}
 </script>
