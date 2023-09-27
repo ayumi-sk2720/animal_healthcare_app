@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  # vue:
-  #   build: ./vue
-  #   container_name: vue-container
-  #   ports:
-  #     - '3000:8080'
-  #   volumes:
-  #     - ./:/vue
-  #   tty: true
+  vue:
+    build: ./vue
+    container_name: vue-container
+    ports:
+      - '3000:8080'
+    volumes:
+      - ./vue:/vue
+    tty: true
   api:
     build: ./api
     container_name: go-api-container
