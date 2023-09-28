@@ -1,12 +1,5 @@
 <template>
   <Header />
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/create-schedule">予定新規作成</router-link>
-  </nav>
-  <template>
-</template>
   <router-view/>
   <Footer />
 </template>
