@@ -30,8 +30,9 @@ $ yarn run serve
 
 ```mermaid
 flowchart TD
-    a[sql-migrate new ***]  --> b[sql-migrate up]
-    b --> a
+    a[sql-migrate new ***]  --> b[テーブル設計/DDL]
+    b[テーブル設計/DDL] --> c[sql-migrate up]
+    c --> b
 ```
 
 ## コマンドについて
