@@ -22,5 +22,18 @@ $ yarn run serve
 ## 起動確認
 * [https://localhost:3000](https://localhost:3000) にアクセスすると画面が表示される
 
+## sqlmigrate
+コマンド集：https://qiita.com/k-kurikuri/items/946e2bf8c79176ef3ff0#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E8%89%B2%E3%80%85
+
+作成したいテーブル、あるいは、ALTERしたいタスクが生じた場合、
+"sql-migrate new ***"を行い、新しいmigrationファイルを作成、その中にDDLを記載する
+
+```mermaid
+flowchart TD
+    a[sql-migrate new ***]  --> b[テーブル設計/DDL]
+    b[テーブル設計/DDL] --> c[sql-migrate up]
+    c --> b
+```
+
 ## コマンドについて
 Makefileを参照すること
