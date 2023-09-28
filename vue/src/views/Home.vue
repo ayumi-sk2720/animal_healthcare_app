@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="home mx-auto max-w-3xl items-center justify-between p-6 lg:px-8">
         <div>
             <h1>{{ msg }}</h1>
         </div>
