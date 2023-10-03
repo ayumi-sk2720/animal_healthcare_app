@@ -25,8 +25,7 @@ paths:
         - pet
       summary: ペット管理システムのTOP画面用
       description: | 
-        ## ペットちゃん管理システムのTOP画面用のデータを返却します<br/>
-        
+        ## ペットちゃん管理システムのTOP画面用のデータを返却します
         ### ■ データ取得元
         - ペット基本情報テーブル
         - 体重推移テーブル
@@ -40,21 +39,29 @@ paths:
         500:
           $ref: '#/components/responses/InternalServerError'
   /pet/schedules:
-    get:
-      tags:
-        - pet
-      summary: 予定一覧取得
-      description: |
-        ## TBD
-      responses:
-        200:
-            $ref: '#/components/responses/GetPetInfo'
-        500:
-          $ref: '#/components/responses/InternalServerError'
     post:
       tags:
         - pet
       summary: 予定登録
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                date:
+                  type: string
+                  nullable: true
+                location:
+                  type: string
+                  nullable: true
+              required:
+                - name
+                - question
+                - trigger
       description: |
         ## トリミング、通院などの予定を日時、場所とともに登録します
       responses:
@@ -351,9 +358,8 @@ components:
     # schedule
     PostSchedule:
       value:
-        name: pet
-        title: 通院
         date: 2023年9月15日 10:00
+        title: 通院
         location: ペテモ立川点
     GetUsersCommon:
       value:
