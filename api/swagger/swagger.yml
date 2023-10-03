@@ -1,11 +1,85 @@
 openapi: 3.0.3
 info:
-  title: strongest-api-2023
+  title: animal_healthcare_app_api
   version: 1.0.0
 tags:
+  - name: pet
+    description: ペット情報
   - name: user
     description: ユーザー情報
 paths:
+# https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Type%20Something%20
+# ==========================================
+#
+# ██████╗ ███████╗████████╗
+# ██╔══██╗██╔════╝╚══██╔══╝
+# ██████╔╝█████╗     ██║   
+# ██╔═══╝ ██╔══╝     ██║   
+# ██║     ███████╗   ██║   
+# ╚═╝     ╚══════╝   ╚═╝   
+#
+# ==========================================
+  /pet/info:
+    get:
+      tags:
+        - pet
+      summary: ペット管理システムのTOP画面用
+      description: | 
+        ## ペットちゃん管理システムのTOP画面用のデータを返却します
+        ### ■ データ取得元
+        - ペット基本情報テーブル
+        - 体重推移テーブル
+        - 投薬予定（今日分（なし、なら、なし）と、直近の予定）テーブル
+        - 体調テーブル（食事、汗、うんち // TODO: これってどこで登録する？
+        - 気になるメモテーブル
+        - 予定テーブル（直近２件）
+      responses:
+        200:
+            $ref: '#/components/responses/GetPetInfo'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /pet/schedules:
+    post:
+      tags:
+        - pet
+      summary: 予定登録
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                date:
+                  type: string
+                  nullable: true
+                location:
+                  type: string
+                  nullable: true
+              required:
+                - name
+                - question
+                - trigger
+      description: |
+        ## トリミング、通院などの予定を日時、場所とともに登録します
+      responses:
+        200:
+            $ref: '#/components/responses/PostSchedule'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+# ==========================================
+# 
+# ██╗   ██╗███████╗███████╗██████╗ ███████╗
+# ██║   ██║██╔════╝██╔════╝██╔══██╗██╔════╝
+# ██║   ██║███████╗█████╗  ██████╔╝███████╗
+# ██║   ██║╚════██║██╔══╝  ██╔══██╗╚════██║
+# ╚██████╔╝███████║███████╗██║  ██║███████║
+#  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
+#                                          
+# ==========================================                                         
   /users:
     get:
       tags:
@@ -76,8 +150,89 @@ paths:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
+# ====================================================================================
+# 
+#  ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███╗   ██╗███████╗███╗   ██╗████████╗███████╗
+# ██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔═══██╗████╗  ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
+# ██║     ██║   ██║██╔████╔██║██████╔╝██║   ██║██╔██╗ ██║█████╗  ██╔██╗ ██║   ██║   ███████╗
+# ██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║   ██║██║╚██╗██║██╔══╝  ██║╚██╗██║   ██║   ╚════██║
+# ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝██║ ╚████║███████╗██║ ╚████║   ██║   ███████║
+# ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+# 
+# ====================================================================================
 components:
   schemas:
+    PetInfo:
+      type: object
+      properties:
+        baseInfo:
+          type: object
+          properties:
+            name:
+              type: string
+            ege:
+              type: string
+            sex:
+              type: string
+            birthday:
+              type: string
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+              nullable: true
+        weight_info:
+          type: object
+          properties:
+            weight:
+              type: integer
+            update_date:
+              type: string
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+              nullable: true
+        target_weight:
+          type: integer
+        dosage_schedule:
+          type: object
+          properties:
+            today:
+              type: string
+            next:
+              type: object
+              properties:
+                name: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
+        physical_condition:
+          type: object
+          properties:
+            food: 
+              type: integer
+              example: "3::◎/2::○/1::△"
+            sweat: 
+              type: integer
+            toilet: 
+              type: integer
+        memo:
+          type: string
+        schedules:
+          type: array
+          properties:
+            date:
+              type: string
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+            name:
+              type: string
+      required:
+      - baseInfo
+      - name
+      - address
+      - birthday
+      - age
+      - sex
+      - memberType
     UserBase:
       type: object
       properties:
@@ -160,7 +315,52 @@ components:
         type: string
         example: 248c8027-b752-db4c-76c1-fb22a05e9591
         nullable: false
+#====================================================================================
+#
+# ███████╗██╗  ██╗ █████╗ ███╗   ███╗██████╗ ██╗     ███████╗
+# ██╔════╝╚██╗██╔╝██╔══██╗████╗ ████║██╔══██╗██║     ██╔════╝
+# █████╗   ╚███╔╝ ███████║██╔████╔██║██████╔╝██║     █████╗  
+# ██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝  
+# ███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║██║     ███████╗███████╗
+# ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝
+#
+# ====================================================================================
   examples:
+    # pet
+    GetPetInfo:
+      value:
+        baseInfo: 
+          name: チャイ
+          age: 3歳8ヶ月
+          sex: メス
+          birthday: 2020年1月27日 10:00
+        now_wight:
+          weight: 4.8kg
+          date: 2023年9月13日 10:00
+        target_wight:
+          weight: 5.2kg
+          date: 2023年9月13日 10:00
+        dosage_schedule:
+          today: なし
+          next: 
+            name: ネクスがーど
+            date: 2023年9月15日 10:00
+        physical_condition:
+          food: 3
+          sweat: 2
+          toilet: 1 
+        memo: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+        schedules:
+          - date: 2023年9月20日 10:00
+            name: トリミング
+          - date: 2023年9月30日 14:00
+            name: 通院
+    # schedule
+    PostSchedule:
+      value:
+        date: 2023年9月15日 10:00
+        title: 通院
+        location: ペテモ立川点
     GetUsersCommon:
       value:
       - id: 248c8027-b752-db4c-76c1-fb22a05e9591
@@ -204,7 +404,38 @@ components:
         sex: MALE
         phoneNumber: null
         email: taro@example.com
+# ====================================================================================
+#
+# ██████╗ ███████╗███████╗██████╗  ██████╗ ███╗   ██╗███████╗███████╗
+# ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔═══██╗████╗  ██║██╔════╝██╔════╝
+# ██████╔╝█████╗  ███████╗██████╔╝██║   ██║██╔██╗ ██║███████╗█████╗  
+# ██╔══██╗██╔══╝  ╚════██║██╔═══╝ ██║   ██║██║╚██╗██║╚════██║██╔══╝  
+# ██║  ██║███████╗███████║██║     ╚██████╔╝██║ ╚████║███████║███████╗
+# ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝
+#
+# ====================================================================================                                                                   
   responses:
+    GetPetInfo:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/PetInfo'
+          examples:
+            GetUsersCommon:
+              $ref: '#/components/examples/GetPetInfo'
+    PostSchedule:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/PetInfo'
+          examples:
+            GetUsersCommon:
+              $ref: '#/components/examples/PostSchedule'
+                
     GetUsers:
       description: successful operation
       content:
