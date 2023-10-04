@@ -1,21 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '../views/Info.vue'
+import About from '../views/About.vue'
+import AddSchedule from '../views/AddSchedule.vue'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'top',
+    component: Home
+  },
+  {
+    path: '/pet/info',
+    name: 'info',
     component: Home
   },
   {
     path: '/about',
     name: 'about',
-    component: () => import('../views/About.vue')
+    component: About
   },
   {
-    path: '/create-schedule',
-    name: 'create-schedule',
-    component: () => import('../views/CreateSchedule.vue')
+    path: '/pet/schedule',
+    name: 'schedule',
+    component: AddSchedule
   }
 ]
 

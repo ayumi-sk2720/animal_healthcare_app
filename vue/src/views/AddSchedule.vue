@@ -1,5 +1,5 @@
 <template>
-    <div class="create-schedule mx-auto block max-w-3xl items-center justify-around p-6 lg:px-8 bg-emerald-500 rounded-lg text-gray-700">
+    <div class="create-schedule mx-auto block max-w-3xl items-center justify-around p-6 lg:px-8 bg-emerald-500 lg:rounded-lg text-gray-700">
         <div class="p-4 pt-0 lg:px-6 font-bold">
             <h1>予定を追加</h1>
         </div>

@@ -1,8 +1,8 @@
 <template>
-    <div class="create-schedule mx-auto block max-w-3xl items-center justify-around p-6 lg:px-8 bg-emerald-500 rounded-lg text-gray-700">
+    <div class="create-schedule mx-auto block max-w-3xl items-center justify-around p-6 lg:px-8 bg-emerald-500 lg:rounded-lg text-gray-700">
         <div class="p-4 my-4 lg:px-6 bg-white rounded-lg flex justify-around">
             <div class="w-5/12">
-                <img src="../assets/chai.png" class="w-10/12 h-full rounded-full">
+                <img src="../assets/chai.png" class="w-10/12 lg:h-full rounded-full">
             </div>
             <div class="w-7/12">
                 <div class="p-2 flex justify-between">

@@ -29,7 +29,7 @@ $ curl 'http://127.0.0.1:4010/pet/info'
 ```
 ### 予定登録
 ```
-$ curl -X POST 'http://127.0.0.1:4010/pet/schedules'
+$ curl -X POST 'http://127.0.0.1:4010/pet/schedule'
 ```
 
 # sqlmigrate

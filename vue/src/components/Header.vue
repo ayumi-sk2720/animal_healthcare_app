@@ -7,7 +7,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                         <path d="M226.5 92.9c14.3 42.9-.3 86.2-32.6 96.8s-70.1-15.6-84.4-58.5s.3-86.2 32.6-96.8s70.1 15.6 84.4 58.5zM100.4 198.6c18.9 32.4 14.3 70.1-10.2 84.1s-59.7-.9-78.5-33.3S-2.7 179.3 21.8 165.3s59.7 .9 78.5 33.3zM69.2 401.2C121.6 259.9 214.7 224 256 224s134.4 35.9 186.8 177.2c3.6 9.7 5.2 20.1 5.2 30.5v1.6c0 25.8-20.9 46.7-46.7 46.7c-11.5 0-22.9-1.4-34-4.2l-88-22c-15.3-3.8-31.3-3.8-46.6 0l-88 22c-11.1 2.8-22.5 4.2-34 4.2C84.9 480 64 459.1 64 433.3v-1.6c0-10.4 1.6-20.8 5.2-30.5zM421.8 282.7c-24.5-14-29.1-51.7-10.2-84.1s54-47.3 78.5-33.3s29.1 51.7 10.2 84.1s-54 47.3-78.5 33.3zM310.1 189.7c-32.3-10.6-46.9-53.9-32.6-96.8s52.1-69.1 84.4-58.5s46.9 53.9 32.6 96.8s-52.1 69.1-84.4 58.5z"/>
                     </svg>
-                    <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" /> -->
                 </a>
             </div>
             <div class="flex lg:hidden">
@@ -70,13 +69,12 @@
                         <router-link to="/about">About</router-link>
                     </PopoverButton>
                 </Popover>
-                <!-- <router-link to="/" class="text-sm font-semibold leading-6 text-gray-900">Home</router-link>
-                <router-link  outer-link to="/about" class="text-sm font-semibold leading-6 text-gray-900">About</router-link>
-                <router-link to="/create-schedule" class="text-sm font-semibold leading-6 text-gray-900">Create Schedule</router-link> -->
             </PopoverGroup>
             <div class="items-center hidden lg:flex lg:flex-1 lg:justify-end">
-                <router-link to="/" class="text-sm font-semibold leading-6 text-gray-900">Home</router-link>
+                <router-link to="/" class="flex text-sm font-semibold leading-6 text-gray-900">
+                    Home
                 <HomeIcon class="ms-1 h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
+                </router-link>
             </div>
         </nav>
 
@@ -89,7 +87,6 @@
                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                                 <path d="M226.5 92.9c14.3 42.9-.3 86.2-32.6 96.8s-70.1-15.6-84.4-58.5s.3-86.2 32.6-96.8s70.1 15.6 84.4 58.5zM100.4 198.6c18.9 32.4 14.3 70.1-10.2 84.1s-59.7-.9-78.5-33.3S-2.7 179.3 21.8 165.3s59.7 .9 78.5 33.3zM69.2 401.2C121.6 259.9 214.7 224 256 224s134.4 35.9 186.8 177.2c3.6 9.7 5.2 20.1 5.2 30.5v1.6c0 25.8-20.9 46.7-46.7 46.7c-11.5 0-22.9-1.4-34-4.2l-88-22c-15.3-3.8-31.3-3.8-46.6 0l-88 22c-11.1 2.8-22.5 4.2-34 4.2C84.9 480 64 459.1 64 433.3v-1.6c0-10.4 1.6-20.8 5.2-30.5zM421.8 282.7c-24.5-14-29.1-51.7-10.2-84.1s54-47.3 78.5-33.3s29.1 51.7 10.2 84.1s-54 47.3-78.5 33.3zM310.1 189.7c-32.3-10.6-46.9-53.9-32.6-96.8s52.1-69.1 84.4-58.5s46.9 53.9 32.6 96.8s-52.1 69.1-84.4 58.5z"/>
                             </svg>
-                            <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" /> -->
                         </a>
                         <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
                             <span class="sr-only">Close menu</span>
@@ -128,9 +125,6 @@
                                         About
                                     </DisclosureButton>
                                 </Disclosure>
-                                <!-- <router-link to="/" class="text-sm font-semibold leading-6 text-gray-900">Home</router-link>
-                                <router-link  outer-link to="/about" class="text-sm font-semibold leading-6 text-gray-900">About</router-link>
-                                <router-link to="/create-schedule" class="text-sm font-semibold leading-6 text-gray-900">Create Schedule</router-link> -->
                             </div>
                             <div class="py-6 flex items-start">
                                 <router-link to="/" class="text-sm font-semibold leading-6 text-gray-900">Home</router-link>
@@ -176,7 +170,7 @@
     const addMenu = [
         { name: 'Weight', description: '体重を記録する', href: '#', icon: ChartBarIcon },
         { name: 'Memo', description: 'メモを追加する', href: '#', icon: PencilIcon },
-        { name: 'Schedule', description: '予定を追加する', href: '/create-schedule', icon: SquaresPlusIcon },
+        { name: 'Schedule', description: '予定を追加する', href: '/pet/schedule', icon: SquaresPlusIcon },
     ]
     const mobileMenuOpen = ref(false)
 </script>

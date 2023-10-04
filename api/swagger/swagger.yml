@@ -37,7 +37,7 @@ paths:
             $ref: '#/components/responses/GetPetInfo'
         500:
           $ref: '#/components/responses/InternalServerError'
-  /pet/schedules:
+  /pet/schedule:
     post:
       tags:
         - pet
