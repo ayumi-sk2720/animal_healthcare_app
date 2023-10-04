@@ -344,8 +344,8 @@ components:
     PostSchedule:
       value:
         date: 2023年9月15日 10:00
-        title: 通院
-        location: ペテモ立川点
+        title: トリミング
+        location: ペテモ立川店
     GetUsersCommon:
       value:
       - id: 248c8027-b752-db4c-76c1-fb22a05e9591
