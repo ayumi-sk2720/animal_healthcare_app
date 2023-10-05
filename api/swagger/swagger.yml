@@ -203,8 +203,15 @@ components:
                 date:
                   format: date
                   example: "yyyy年M月D日 HH:MM"
+        # メモは最終更新日が必要なので修正
         memo:
           type: string
+          properties:
+            text:
+              type: string
+            date:
+              format: date
+              example: "yyyy年M月D日 HH:MM"
         schedules:
           type: array
           properties:
@@ -322,19 +329,25 @@ components:
           name: チャイ
           age: 3歳8ヶ月
           sex: メス
-          birthday: 2020年1月27日 10:00
+          # 誕生日は年月日のみの表記のため修正
+          birthday: 2020年1月27日
+          # birthday: 2020年1月27日 10:00
         now_wight:
           weight: 4.8kg
           date: 2023年9月13日 10:00
         target_wight:
           weight: 5.2kg
-          date: 2023年9月13日 10:00
+          # 目標体重にdateは不要なので削除
+          # date: 2023年9月13日 10:00
         dosage_schedule:
           today: なし
           next:
             name: ネクスガード
             date: 2023年9月15日 10:00
-        memo: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+        # メモは最終更新日が必要なので修正
+        memo:
+          text: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+          date: 2023年9月15日 10:00
         schedules:
           - date: 2023年9月20日 10:00
             name: トリミング

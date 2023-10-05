@@ -6,16 +6,16 @@
             </div>
             <div class="w-7/12">
                 <div class="p-2 flex justify-between">
-                    <p class="text-2xl">{{ data.name }}</p>
-                    <p class="text-2xl">{{ data.age }}</p>
+                    <p class="text-2xl">{{ baseInfo.name }}</p>
+                    <p class="text-2xl">{{ baseInfo.age }}</p>
                 </div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">性別</p>
-                    <p class="text-lg">{{ data.gender }}</p>
+                    <p class="text-lg">{{ baseInfo.sex }}</p>
                 </div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">誕生日</p>
-                    <p class="text-lg">{{ data.birthday }}</p>
+                    <p class="text-lg">{{ baseInfo.birthday }}</p>
                 </div>
             </div>
         </div>
@@ -23,17 +23,17 @@
             <div class="p-4 lg:px-6 bg-white rounded-lg w-6/12 me-4">
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">体重</p>
-                    <p class="text-lg">{{ data.weight }}</p>
+                    <p class="text-lg">{{ nowWeight.weight }}</p>
                 </div>
                 <div class="p-2 flex items-center">
                     <p class="text-xs py-2 text-gray-500">最終更新</p>
-                    <p class="text-xs py-2 ml-4">{{ data.weightLastUpdate }}</p>
+                    <p class="text-xs py-2 ml-4">{{ nowWeight.date }}</p>
                 </div>
             </div>
             <div class="p-4 lg:px-6 bg-white rounded-lg w-6/12">
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">目標体重</p>
-                    <p class="text-lg">{{ data.targetWeight}}</p>
+                    <p class="text-lg">{{ targetWight.weight}}</p>
                 </div>
             </div>
         </div>
@@ -41,13 +41,13 @@
             <div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">今日のお薬</p>
-                    <p class="text-lg">{{ data.todayMedication }}</p>
+                    <p class="text-lg">{{ dosageSchedule.today }}</p>
                 </div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">次の投薬</p>
                     <div class="flex items-center">
-                        <p class="text-xs">{{ data.nextMedicationDate }}</p>
-                        <p class="text-lg ml-4">{{ data.nextMedication }}</p>
+                        <p class="text-xs">{{ dosageNextSchedule.date }}</p>
+                        <p class="text-lg ml-4">{{ dosageNextSchedule.name }}</p>
                     </div>
                 </div>
             </div>
@@ -56,11 +56,11 @@
             <div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">気になるメモ</p>
-                    <p class="text-lg">{{ data.latestMemo }}</p>
+                    <p class="text-lg">{{ memo.text }}</p>
                 </div>
                 <div class="p-2 flex items-center">
                     <p class="text-xs py-2 text-gray-500">最終更新</p>
-                    <p class="text-xs py-2 ml-4">{{ data.memoLastUpdate }}</p>
+                    <p class="text-xs py-2 ml-4">{{ memo.date }}</p>
                 </div>
             </div>
         </div>
@@ -69,12 +69,12 @@
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">次の予定</p>
                     <div class="flex items-center py-2">
-                        <p class="text-xs">{{ data.nextScheduleDate1 }}</p>
-                        <p class="text-lg ml-4">{{ data.nextSchedule1 }}</p>
+                        <p class="text-xs">{{ schedules.date }}</p>
+                        <p class="text-lg ml-4">{{ schedules.name }}</p>
                     </div>
                     <div class="flex items-center py-2">
-                        <p class="text-xs">{{ data.nextScheduleDate2 }}</p>
-                        <p class="text-lg ml-4">{{ data.nextSchedule2 }}</p>
+                        <p class="text-xs">{{ nextSchedules.date }}</p>
+                        <p class="text-lg ml-4">{{ nextSchedules.name }}</p>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,45 @@
     </div>
 </template>
 
-<script setup>
+<script>
+import axios from 'axios';
+export default {
+    data(){
+        return{
+            baseInfo: [],
+            nowWeight: [],
+            targetWight: [],
+            dosageSchedule: [],
+            dosageNextSchedule: [],
+            memo: [],
+            schedules: [],
+            nextSchedules: [],
+            error: [],
+            message: [],
+        }
+    },
+    mounted(){
+        axios
+        .get('http://127.0.0.1:4010/pet/info')
+        .then(
+            response => {
+                this.baseInfo = response.data.baseInfo,
+                this.nowWeight = response.data.now_wight,
+                this.targetWight = response.data.target_wight,
+                this.dosageSchedule = response.data.dosage_schedule,
+                this.dosageNextSchedule = response.data.dosage_schedule.next,
+                this.memo = response.data.memo,
+                this.schedules = response.data.schedules[0]
+                this.nextSchedules = response.data.schedules[1]
+            }
+        )
+        // .then(response =>  this.info = response )
+        .catch( e => this.error = e )
+        .finally( msg => this.message = {title: "finallyを実行しました", message: msg} )
+    }
+}
+</script>
+<!-- <script setup>
 import { reactive } from 'vue'
 const data = reactive({
     name: 'チャイ',
@@ -102,4 +140,4 @@ const data = reactive({
     nextScheduleDate2: '2023.10.05',
     nextSchedule2: '通院',
 })
-</script>
+</script> -->
