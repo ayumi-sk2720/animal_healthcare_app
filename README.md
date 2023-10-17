@@ -21,24 +21,16 @@ $ yarn run serve
 ### 起動確認
 * [https://localhost:3000](https://localhost:3000) にアクセスすると画面が表示される
 
-# モックサーバー
-サンプルファイル: `vue/sample-api.yml`
+# ターミナルからのHTTPデータ送信
 
-### vueコンテナに入ってprismを起動
+### TOP画面
 ```
-$ prism mock sample-api.yml
+$ curl 'http://127.0.0.1:4010/pet/info'
 ```
-### レスポンス確認
-- コンテナ内でcurlコマンドを打つ  
-例）
-    - 入力
-    ```
-    curl 'http://127.0.0.1:4010/pets' 
-    ```
-    - 出力
-    ```
-    {"name":"string","tag":"string","id":-9223372036854776000}
-    ```
+### 予定登録
+```
+$ curl -X POST 'http://127.0.0.1:4010/pet/schedule'
+```
 
 # sqlmigrate
 コマンド集：[https://qiita.com/k-kurikuri/items/946e2bf8c79176ef3ff0#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E8%89%B2%E3%80%85](https://qiita.com/k-kurikuri/items/946e2bf8c79176ef3ff0#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E8%89%B2%E3%80%85)
@@ -54,5 +46,5 @@ flowchart TD
 ```
 
 # 各種コマンド
-Makefileを参照すること  
+Makefileを参照すること
 必要に応じて記入お願いします
