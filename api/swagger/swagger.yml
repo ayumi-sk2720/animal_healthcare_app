@@ -5,8 +5,6 @@ info:
 tags:
   - name: pet
     description: ペット情報
-  - name: user
-    description: ユーザー情報
 paths:
 # https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Type%20Something%20
 # ==========================================
@@ -19,7 +17,7 @@ paths:
 # ╚═╝     ╚══════╝   ╚═╝   
 #
 # ==========================================
-  /pet/info:
+  /pet/{pet_id}:
     get:
       tags:
         - pet
@@ -33,16 +31,28 @@ paths:
         - 体調テーブル（食事、汗、うんち // TODO: これってどこで登録する？
         - 気になるメモテーブル
         - 予定テーブル（直近２件）
+      parameters:
+        - in: path
+          name: pet_id
+          required: true
+          schema: 
+            type: integer
       responses:
         200:
             $ref: '#/components/responses/GetPetInfo'
         500:
           $ref: '#/components/responses/InternalServerError'
-  /pet/schedules:
+  /pet/{pet_id}/schedules:
     post:
       tags:
         - pet
       summary: 予定登録
+      parameters:
+        - in: path
+          name: pet_id
+          required: true
+          schema: 
+            type: integer
       requestBody:
         content:
           application/json:
@@ -67,87 +77,6 @@ paths:
       responses:
         200:
             $ref: '#/components/responses/PostSchedule'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-
-# ==========================================
-# 
-# ██╗   ██╗███████╗███████╗██████╗ ███████╗
-# ██║   ██║██╔════╝██╔════╝██╔══██╗██╔════╝
-# ██║   ██║███████╗█████╗  ██████╔╝███████╗
-# ██║   ██║╚════██║██╔══╝  ██╔══██╗╚════██║
-# ╚██████╔╝███████║███████╗██║  ██║███████║
-#  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
-#                                          
-# ==========================================                                         
-  /users:
-    get:
-      tags:
-        - user
-      summary: ユーザー一覧API
-      description: |
-        ユーザーをデフォルトで全件取得して返却します <br>
-        idの昇順。
-      responses:
-        200:
-          $ref: '#/components/responses/GetUsers'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-    post:
-      tags:
-        - user
-      summary: ユーザー登録API
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  nullable: false
-                nickname:
-                  type: string
-                  nullable: false
-                address:
-                  type: string
-                  nullable: false
-                age:
-                  type: integer
-                  nullable: false
-                birthday:
-                  type: string
-                  format: date
-                  nullable: false
-                trigger:
-                  type: array
-                  example: []
-                question:
-                  type: string
-                  nullable: false
-              required:
-                - name
-                - question
-                - trigger
-      responses:
-        200:
-          $ref: '#/components/responses/GetUser'
-  /users/{userId}:
-    get:
-      tags:
-        - user
-      summary: ユーザー詳細API
-      description: |
-        ユーザー詳細を取得して返却します <br>
-      parameters:
-        - $ref: '#/components/parameters/UserId'
-      responses:
-        200:
-          $ref: '#/components/responses/GetUser'
-        400:
-          $ref: '#/components/responses/IllegalInput'
-        404:
-          $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/InternalServerError'
 # ====================================================================================
