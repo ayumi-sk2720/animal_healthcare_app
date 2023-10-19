@@ -20,9 +20,17 @@ type Pets struct {
 
 func seeds(db *gorm.DB) error {
 
-    // 日本語を投入しようとすると以下警告
+    // TODO: 日本語を投入しようとすると以下警告
     // Error 1366 (HY000): Incorrect string value: '\xE3\x83\xA1\xE3\x82\xB9' for column 'sex' at row 1root@3982857c066f:/go/src/app/seed# 
     pet := Pets{Name: "natsu", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+    if err := db.Create(&pet).Error; err != nil {
+        fmt.Printf("%+v", err)
+    }
+    pet := Pets{Name: "chai", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+    if err := db.Create(&pet).Error; err != nil {
+        fmt.Printf("%+v", err)
+    }
+    pet := Pets{Name: "mugi", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
     if err := db.Create(&pet).Error; err != nil {
         fmt.Printf("%+v", err)
     }
