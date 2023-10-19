@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo"
 	dbconnect "github.com/myantyuWorld/animal_healthcate/database"
+	"github.com/myantyuWorld/animal_healthcate/model"
 )
 
 func FetchPet() echo.HandlerFunc {
@@ -19,10 +20,19 @@ func FetchPet() echo.HandlerFunc {
 		defer db.Close()
 
 		// ORM
+		pet := model.Pet{}
 
-		// db操作
+		// db操作 | https://gorm.io/ja_JP/docs/query.html
+		result := db.First(&pet, id)
+		fmt.Printf("pet:: %v\n", &pet)
 
-		return c.JSON(http.StatusOK, "get pet")
+		if result.RecordNotFound() {
+			fmt.Printf("レコードが見つかりません")
+			// TODO: エラーを共通的なJSONで返したい
+			return c.JSON(http.StatusFound, "該当のペットが見つかりませんでした")
+		}
+
+		return c.JSON(http.StatusOK, pet)
 	}
 }
 
