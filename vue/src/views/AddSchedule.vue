@@ -5,13 +5,6 @@
         </div>
         <div class="p-4 lg:px-6 bg-white rounded-lg grid justify-center">
             <div class="max-w-7xl p-4">
-                <label for="pet-select"  class="block p-2">ペット名</label>
-                <select name="pets" id="pet-select" class="block w-full p-2 border border-gray-700 rounded">
-                    <option value="">-- 選択してください --</option>
-                    <option v-for="pet in pets" :key="pet.id" :value="pet.name">{{ pet.name }}</option>
-                </select>
-            </div>
-            <div class="max-w-7xl p-4">
                 <label for="title" class="block p-2">タイトル</label>
                 <input type="text" id="title" placeholder="例）トリミング" class="block w-full p-2 border border-gray-700 rounded">
             </div>
@@ -29,22 +22,3 @@
         </div>
     </div>
 </template>
-
-<script>
-export default {
-    data () {
-        return {
-            pets: [
-                {
-                    id: 1,
-                    name: '麦'
-                },
-                {
-                    id: 2,
-                    name: 'チャイ'
-                }
-            ],
-        }
-    }
-}
-</script>

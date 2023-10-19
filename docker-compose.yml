@@ -30,7 +30,8 @@ services:
      - MYSQL_DATABASE=dev
     tty: true
   db:
-    image: mysql:5.7
+    image: mysql:5.7 # M1チップのプラットフォームはarm64であるのに対し、mysql5.7*のイメージのサポートプラットフォームがAMD64で不一致
+    platform: linux/amd64
     restart: always
     volumes:
       - ./db/mysql/my.cnf:/etc/mysql/conf.d/my.cnf # mysqlの設定
