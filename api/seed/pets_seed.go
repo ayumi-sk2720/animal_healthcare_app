@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	dbconnect "github.com/myantyuWorld/animal_healthcate/database"
 )
 
 type Pets struct {
@@ -36,21 +36,10 @@ func seeds(db *gorm.DB) error {
 	return nil
 }
 
-func openConnection() *gorm.DB {
-	// 詳細は https://github.com/go-sql-driver/mysql#dsn-data-source-name を参照
-	dsn := "root:hogehoge@tcp(db:3306)/dev?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open("mysql", dsn)
-
-	if err != nil {
-		log.Fatalf("Couldn't establish database connection: %s", err)
-	}
-	return db
-}
-
 func main() {
 	// TODO: database.connect.goのConnect()でできるので上記メソッドがいらない
 	// db := dbconnect.Connect()
-	db := openConnection()
+	db := dbconnect.Connect()
 	if err := seeds(db); err != nil {
 		fmt.Printf("%+v", err)
 		return
