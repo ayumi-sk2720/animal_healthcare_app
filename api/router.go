@@ -18,6 +18,6 @@ func newRouter() *echo.Echo {
 		return c.String(http.StatusOK, "Hello, golang echo!")
 	})
 	e.GET("pet/:id", controllers.FetchPet())
-	e.POST("pet/:id/schedule", controllers.PostShedule())
+	e.GET("pet/:id/schedule", controllers.GetShedules())
 	return e
 }

@@ -38,15 +38,27 @@ func FetchPet() echo.HandlerFunc {
 	}
 }
 
-func PostShedule() echo.HandlerFunc {
+// TODO: クエリパラメータを指定して、期間を絞り込んだり、当日のデータを返すようなものが望ましい
+func GetShedules() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		// parameter取得
+		id := c.Param("id")
 
 		// db接続を取得し、deferで閉じる
+		db := dbconnect.Connect()
+		defer db.Close()
 
 		// ORM
+		schedules := []model.Schedule{}
+		result := db.Find(&schedules, "pet_id = ?", id)
+
+		if result.RecordNotFound() {
+			fmt.Printf("レコードが見つかりません")
+			// TODO: エラーを共通的なJSONで返したい
+			return c.JSON(http.StatusFound, "該当のペットに対応するスケジュールが見つかりませんでした。")
+		}
 
 		// db操作
-		return c.JSON(http.StatusOK, "post shedule!")
+		return c.JSON(http.StatusOK, &schedules)
 	}
 }
