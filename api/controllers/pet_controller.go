@@ -9,6 +9,7 @@ import (
 	"github.com/myantyuWorld/animal_healthcate/model"
 )
 
+// TODO: Golangで、デザインパターン「Template Method」を学ぶ | https://qiita.com/ttsubo/items/a36c6fc9acac3513b4af
 func FetchPet() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		// parameter取得
