@@ -23,6 +23,7 @@ func FetchPet() echo.HandlerFunc {
 		pet := model.Pet{}
 
 		// db操作 | https://gorm.io/ja_JP/docs/query.html
+		// TODO: 将来的には、テーブル結合した結果を返却する
 		result := db.First(&pet, id)
 		fmt.Printf("pet:: %v\n", &pet)
 
