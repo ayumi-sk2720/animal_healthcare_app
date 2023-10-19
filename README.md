@@ -48,3 +48,28 @@ flowchart TD
 # 各種コマンド
 Makefileを参照すること
 必要に応じて記入お願いします
+
+# Tips
+### seedを投入するまでの手順
+
+go run ***.goまで実行することで、テストデータが投入されます
+（***.goは、実際にはファイル名を指定）
+
+```mermaid
+flowchart TD
+    a[make]  --> b[make exec-api]
+    b --> c[sql-migrate up]
+    c --> d[cd seed]
+    d --> e[go run ***.go]
+```
+### mysqlでSQL実行
+
+```sh
+$ make exec-db
+bash-4.2# mysql -uroot -p
+{パスワードを入力}
+mysql> use dev;
+mysql> show tables;
+mysql> describe pets;
+mysql> select * from pets;
+```
