@@ -5,6 +5,7 @@ import (
 	// controller "api/controllers"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/myantyuWorld/animal_healthcate/controllers"
 )
 
 func newRouter() *echo.Echo {
@@ -16,9 +17,7 @@ func newRouter() *echo.Echo {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, golang echo!")
 	})
-	// e.POST("user", controller.Create())
-	// e.GET("user/:id", controller.UserShow())
-	// e.PUT("user/:id", controller.Update())
-	// e.DELETE("user/:id", controller.Delete())
+	e.GET("pet/:id", controllers.FetchPet())
+	e.POST("pet/:id/schedule", controllers.PostShedule())
 	return e
 }
