@@ -11,7 +11,7 @@ import (
 )
 
 type Schedules struct {
-	PetId     int8
+	PetId     int
 	Title     string
 	Date      time.Time
 	Location  string
@@ -24,7 +24,7 @@ func seeds(db *gorm.DB) error {
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 5; j++ {
 			schedule := Schedules{
-				PetId:     1,
+				PetId:     i + 1,
 				Title:     "サンプル" + strconv.Itoa(i),
 				Date:      time.Now(),
 				Location:  "サンプルペットショップ" + strconv.Itoa(j),
