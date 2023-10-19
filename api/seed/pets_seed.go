@@ -26,12 +26,12 @@ func seeds(db *gorm.DB) error {
     if err := db.Create(&pet).Error; err != nil {
         fmt.Printf("%+v", err)
     }
-    pet := Pets{Name: "chai", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
-    if err := db.Create(&pet).Error; err != nil {
+    pet1 := Pets{Name: "chai", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+    if err := db.Create(&pet1).Error; err != nil {
         fmt.Printf("%+v", err)
     }
-    pet := Pets{Name: "mugi", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
-    if err := db.Create(&pet).Error; err != nil {
+    pet2 := Pets{Name: "mugi", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+    if err := db.Create(&pet2).Error; err != nil {
         fmt.Printf("%+v", err)
     }
 
