@@ -20,7 +20,6 @@ type Schedules struct {
 }
 
 func seeds(db *gorm.DB) error {
-	// TODO: 日本語を投入しようとすると以下警告
 	for i := 0; i < 3; i++ {
 		for j := 0; j < 5; j++ {
 			schedule := Schedules{
@@ -41,8 +40,6 @@ func seeds(db *gorm.DB) error {
 }
 
 func main() {
-	// TODO: database.connect.goのConnect()でできるので上記メソッドがいらない
-	// db := dbconnect.Connect()
 	db := dbconnect.Connect()
 	if err := seeds(db); err != nil {
 		fmt.Printf("%+v", err)
