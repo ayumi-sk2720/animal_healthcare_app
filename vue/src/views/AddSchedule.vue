@@ -7,18 +7,70 @@
             <div class="max-w-7xl p-4">
                 <label for="title" class="block p-2">タイトル</label>
                 <input type="text" id="title" placeholder="例）トリミング" class="block w-full p-2 border border-gray-700 rounded">
+                <input type="text" id="nameText">
             </div>
             <div class="max-w-7xl p-4">
                 <label for="datetime-local" class="block p-2">日時</label>
-                <input type="datetime-local" id="datetime-local" class="block w-full p-2 border border-gray-700 rounded">
+                <input type="datetime-local" id="date" class="block w-full p-2 border border-gray-700 rounded">
             </div>
             <div class="max-w-7xl p-4">
-                <label for="place" class="block p-2">場所</label>
-                <input type="text" id="place" placeholder="例）ペテモ 立川店" class="block w-full p-2 border border-gray-700 rounded">
+                <label for="location" class="block p-2">場所</label>
+                <input type="text" id="location" placeholder="例）ペテモ 立川店" class="block w-full p-2 border border-gray-700 rounded">
             </div>
             <div class="p-4 text-center">
-                <button type="submit" class="w-4/5 p-3 bg-orange-500 text-white rounded">作成する</button>
+                <button type="button" @click="addSchedule" class="w-4/5 p-3 bg-orange-500 text-white rounded">作成する</button>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+// TODO: POST送信の記述が正しいか確かめる
+
+// function addSchedule() {
+//     const title = document.getElementById('title').value
+//     const date = document.getElementById('date').value
+//     const location = document.getElementById('location').value
+//     console.log(title, date, location)
+// }
+
+import axios from 'axios';
+// axios.defaults.headers.common = {
+//     'X-Requested-With': 'XMLHttpRequest',
+//     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+// };
+export default {
+    data(){
+        return {
+            date: "",
+            title: "",
+            location: "",
+        };
+    },
+    methods:{
+    addSchedule: function () {
+        const date = document.getElementById('date').value
+        const title = document.getElementById('title').value
+        const location = document.getElementById('location').value
+        axios
+            .post("http://127.0.0.1:4010/pet/schedule", {
+                date: date,
+                title: title,
+                location: location,
+            }, {
+                headers: {'Content-Type': 'application/json'}
+            })
+            .then((res) => {
+                console.log(res);
+                this.posts = res.data.posts;
+            })
+            .catch((err) => {
+                console.log(date)
+                console.log(title)
+                console.log(location)
+                console.log(err.response);
+            });
+        },
+    },
+};
+</script>

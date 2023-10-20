@@ -101,22 +101,21 @@ export default {
     },
     mounted(){
         axios
-        .get('http://127.0.0.1:4010/pet/info')
-        .then(
-            response => {
-                this.baseInfo = response.data.baseInfo,
-                this.nowWeight = response.data.now_wight,
-                this.targetWight = response.data.target_wight,
-                this.dosageSchedule = response.data.dosage_schedule,
-                this.dosageNextSchedule = response.data.dosage_schedule.next,
-                this.memo = response.data.memo,
-                this.schedules = response.data.schedules[0]
-                this.nextSchedules = response.data.schedules[1]
-            }
-        )
-        // .then(response =>  this.info = response )
-        .catch( e => this.error = e )
-        .finally( msg => this.message = {title: "finallyを実行しました", message: msg} )
+            .get('http://127.0.0.1:4010/pet/info')
+            .then((res) => {
+                    this.baseInfo = res.data.baseInfo,
+                    this.nowWeight = res.data.now_wight,
+                    this.targetWight = res.data.target_wight,
+                    this.dosageSchedule = res.data.dosage_schedule,
+                    this.dosageNextSchedule = res.data.dosage_schedule.next,
+                    this.memo = res.data.memo,
+                    this.schedules = res.data.schedules[0]
+                    this.nextSchedules = res.data.schedules[1]
+                }
+            )
+            .catch((err) => {
+                console.log(err);
+            });
     }
 }
 </script>
