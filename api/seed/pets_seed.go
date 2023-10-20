@@ -18,15 +18,15 @@ type Pets struct {
 }
 
 func seeds(db *gorm.DB) error {
-	pet := Pets{Name: "natsu", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+	pet := Pets{Name: "なっちゃん", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
 	if err := db.Create(&pet).Error; err != nil {
 		fmt.Printf("%+v", err)
 	}
-	pet1 := Pets{Name: "chai", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+	pet1 := Pets{Name: "チャイ", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
 	if err := db.Create(&pet1).Error; err != nil {
 		fmt.Printf("%+v", err)
 	}
-	pet2 := Pets{Name: "mugi", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
+	pet2 := Pets{Name: "むぎ", BirthDay: time.Now(), Sex: 1, CreatedAt: time.Now(), UpdatedAt: time.Now()}
 	if err := db.Create(&pet2).Error; err != nil {
 		fmt.Printf("%+v", err)
 	}
