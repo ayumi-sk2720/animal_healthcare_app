@@ -50,10 +50,12 @@ Makefileを参照すること
 必要に応じて記入お願いします
 
 # Tips
-### seedを投入するまでの手順
+### seedを投入して、POSTMANでAPIをリクエストするまで
 
-go run ***.goまで実行することで、テストデータが投入されます
-（***.goは、実際にはファイル名を指定）
+go run ＊＊＊.goまで実行することで、テストデータが投入されます  
+（＊＊＊.goは、実際にはファイル名を指定）
+
+"dbコンテナに入りデータが入っているか確認"については、「mysqlでSQL実行」を確認
 
 ```mermaid
 flowchart TD
@@ -61,6 +63,8 @@ flowchart TD
     b --> c[sql-migrate up]
     c --> d[cd seed]
     d --> e[go run ***.go]
+    e --> f[dbコンテナに入りデータが入っているか確認]
+    f --> g[curlあるいはRestToolでレスポンスを確認]
 ```
 ### mysqlでSQL実行
 
