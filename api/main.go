@@ -1,7 +1,15 @@
 package main
 
-// [参考] Mysql,Go,Echo,GORM,sql-migrateでCRUDなAPIを作成するまで | https://qiita.com/yusuke1120925/items/a6e05178cf6e6bf1f030
+import (
+	"net/http"
+
+	"github.com/labstack/echo"
+)
+
 func main() {
-	router := newRouter()
-	router.Logger.Fatal(router.Start(":8080"))
+	e := echo.New()
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, world!")
+	})
+	e.Logger.Fatal(e.Start(":8080"))
 }
