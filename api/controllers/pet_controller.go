@@ -3,6 +3,8 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/labstack/echo"
 	dbconnect "github.com/myantyuWorld/animal_healthcate/database"
@@ -104,20 +106,30 @@ func GetShedules() echo.HandlerFunc {
 
 // [example]
 //
-//	{
-//			"title": "サンプル0",
-//			"date": "2023-10-19T18:58:18+09:00",
-//			"location": "サンプルペットショップ0"
-//	}
+//	curl "http://0.0.0.0:8080/pet/1/schedules" \
+//	  -X POST \
+//	  -d '{"title": "サンプル0",    "date": "2023-10-19T18:58:18+09:00",    "location": "サンプルペットショップ0"}' \
+//	  -H "content-type: application/json"
 func PostSchedule() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		// Binding | https://echo.labstack.com/docs/binding
-		schedule := new(model.PostSchedule)
+		schedule := new(model.Schedule)
 		if error := c.Bind(&schedule); error != nil {
 			fmt.Println()
 			return c.JSON(http.StatusBadRequest, "bad request")
 		}
+		schedule.PetId, _ = strconv.Atoi(c.Param("id"))
+		schedule.CreatedAt = time.Now()
+		schedule.UpdatedAt = time.Now()
 		fmt.Println(schedule)
+
+		// db接続を取得し、deferで閉じる
+		db := dbconnect.Connect()
+		defer db.Close()
+
+		if error := db.Create(schedule).Error; error != nil {
+			return c.JSON(http.StatusInternalServerError, "異常が発生しました、担当者に連絡してください。")
+		}
 
 		return c.JSON(http.StatusOK, &schedule)
 	}
