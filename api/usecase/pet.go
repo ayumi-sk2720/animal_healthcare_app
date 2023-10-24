@@ -21,6 +21,6 @@ func NewPetUsecase(petRepo repository.PetRepository) PetUsecase {
 
 // Method
 func (usecase *petUsecase) TopView(petId string) (topInfo *model.TopInfo, err error) {
-	topInfo, err = usecase.TopView(petId)
+	topInfo, err = usecase.petRepo.TopView(petId)
 	return
 }

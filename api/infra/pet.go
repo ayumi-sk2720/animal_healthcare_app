@@ -19,13 +19,13 @@ func NewPetRepository(sqlHandler SqlHandler) repository.PetRepository {
 
 func (petRepo *PetRepository) TopView(petId string) (topInfo *model.TopInfo, err error) {
 	pet := model.Pet{}
-
 	result := petRepo.SqlHandler.Conn.Find(&pet, petId)
 	if result.RecordNotFound() {
 		fmt.Print("error")
 		return
 	}
 
+	topInfo = &model.TopInfo{}
 	topInfo.Pet = pet
 	// TODO: 将来的には、テーブル結合した結果を返却する --- start ---
 	topInfo.DosageSchedules.Today = model.Task{
