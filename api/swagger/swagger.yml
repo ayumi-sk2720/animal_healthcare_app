@@ -112,25 +112,6 @@ components:
               format: date
               example: "yyyy年M月D日 HH:MM"
               nullable: true
-        dosage_schedule:
-          type: object
-          properties:
-            today:
-              type: object
-              properties:
-                name: 
-                  type: string
-                date:
-                  format: date
-                  example: "yyyy年M月D日 HH:MM"
-            next:
-              type: object
-              properties:
-                name: 
-                  type: string
-                date:
-                  format: date
-                  example: "yyyy年M月D日 HH:MM"
         physical_condition:
           type: object
           properties:
@@ -142,22 +123,51 @@ components:
             toilet: 
               type: integer
         memo:
-          type: string
+          type: object
           properties:
-            text:
+            id:
+              type: integer
+            title:
               type: string
             date:
               format: date
               example: "yyyy年M月D日 HH:MM"
-        schedules:
+        schedules: # イベントスケジュール
           type: array
           properties:
+            id:
+              type: integer
+            title:
+              type: string
             date:
               type: string
               format: date
               example: "yyyy年M月D日 HH:MM"
-            name:
+            location:
               type: string
+        dosage_schedules: # 投薬スケジュール
+          type: object
+          properties:
+            today:
+              type: object
+              properties:
+                id:
+                  type: integer
+                title: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
+            next:
+              type: object
+              properties:
+                id:
+                  type: integer
+                title: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
       required:
       - baseInfo
       - name
@@ -273,23 +283,32 @@ components:
           # birthday: 2020年1月27日 10:00
           # 目標体重にdateは不要なので削除
           # date: 2023年9月13日 10:00
-        dosage_schedule:
+        dosage_schedules:
           today:
-            name: "" # 予定がない場合は空白 
+            id: 1
+            title: "" # 予定がない場合は空白 
             date: 2023年9月1日 10:00
           next: 
-            name: ネクスがーど
+            id: 2
+            title: ネクスがーど
             date: 2023年9月15日 10:00
         physical_condition:
           food: 3
           sweat: 2
           toilet: 1 
-        memo: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+        memo: 
+            id: 1
+            title: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+            date: 2023年9月15日 10:00
         schedules:
-          - date: 2023年9月20日 10:00
-            name: トリミング
-          - date: 2023年9月30日 14:00
-            name: 通院
+          - id: 1
+            date: 2023年9月20日 10:00
+            title: トリミング
+            location: ペテモ立川点
+          - id: 2
+            date: 2023年9月30日 14:00
+            title: 通院
+            location: ホゲホゲ病院
     # schedule
     PostSchedule:
       value:
