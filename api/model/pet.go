@@ -4,7 +4,7 @@ import "time"
 
 // User struct -  basic user model
 type Pet struct {
-	Id           int       `gorm:"primary_key" json:"id"`
+	Id           string    `gorm:"primary_key" json:"id"`
 	Name         string    `json:"name"`
 	Age          string    `json:"age"`
 	Sex          string    `json:"sex"`

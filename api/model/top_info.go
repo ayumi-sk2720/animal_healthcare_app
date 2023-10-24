@@ -11,6 +11,6 @@ type TopInfo struct {
 		Sweat  int `json:"sweat"`
 		Toilet int `json:"toilet"`
 	} `json:"physical_condition"`
-	Memo      string     `json:"memo"`
+	Memo      Task       `json:"memo"`
 	Schedules []Schedule `json:"schedules"`
 }
