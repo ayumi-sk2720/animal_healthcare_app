@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/labstack/echo"
@@ -12,6 +11,7 @@ import (
 )
 
 // TODO: [同じ処理が多い、テンプレートパターンで処理を抽象化したい] Golangで、デザインパターン「Template Method」を学ぶ | https://qiita.com/ttsubo/items/a36c6fc9acac3513b4af
+// TODO: [golang Clean Architecture] | https://qiita.com/mIchino/items/b885de3396e3f77d8b37
 func FetchPet() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		// parameter取得
@@ -23,51 +23,45 @@ func FetchPet() echo.HandlerFunc {
 		defer db.Close()
 
 		// ORM
+		topInfo := model.TopInfo{}
 		pet := model.Pet{}
 
 		// db操作 | https://gorm.io/ja_JP/docs/query.html
-		// TODO: 将来的には、テーブル結合した結果を返却する
+
 		result := db.First(&pet, id)
 		fmt.Printf("pet:: %v\n", &pet)
-		// 実際にはこのJSONを返す必要がある
-		// {
-		// 	"baseInfo": {
-		// 		"name": "チャイ",
-		// 		"age": "3歳8ヶ月",
-		// 		"sex": "メス",
-		// 		"birthday": "2020年1月27日"
-		// 	},
-		// 	"now_wight": {
-		// 		"weight": "4.8kg",
-		// 		"date": "2023年9月13日 10:00"
-		// 	},
-		// 	"target_wight": {
-		// 		"weight": "5.2kg"
-		// 	},
-		// 	"dosage_schedule": {
-		// 		"today": "なし",
-		// 		"next": {
-		// 			"name": "ネクスがーど",
-		// 			"date": "2023年9月15日 10:00"
-		// 		}
-		// 	},
-		// 	"physical_condition": {
-		// 		"food": 3,
-		// 		"sweat": 2,
-		// 		"toilet": 1
-		// 	},
-		// 	"memo": "今月に入って飲む水の量が\\n増えた気がする\\n次に通院した時に先生に相談する",
-		// 	"schedules": [
-		// 		{
-		// 			"date": "2023年9月20日 10:00",
-		// 			"name": "トリミング"
-		// 		},
-		// 		{
-		// 			"date": "2023年9月30日 14:00",
-		// 			"name": "通院"
-		// 		}
-		// 	]
-		// }
+		topInfo.Pet = pet
+		// TODO: 将来的には、テーブル結合した結果を返却する --- start ---
+		topInfo.DosageSchedules.Today = model.Task{
+			Title: "hogehoge",
+			Date:  time.Now(),
+		}
+		topInfo.DosageSchedules.Next = model.Task{
+			Title: "fugafuga",
+			Date:  time.Now(),
+		}
+		topInfo.PhysicalCondition.Food = 3
+		topInfo.PhysicalCondition.Sweat = 2
+		topInfo.PhysicalCondition.Toilet = 1
+		topInfo.Memo = model.Task{
+			Title: "今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する",
+			Date:  time.Now(),
+		}
+		topInfo.Schedules = []model.Schedule{
+			{
+				PetId:    id,
+				Title:    "トリミング",
+				Date:     time.Now(),
+				Location: "ペテモ立川店",
+			},
+			{
+				PetId:    id,
+				Title:    "通院",
+				Date:     time.Now(),
+				Location: "ホゲホゲ病院",
+			},
+		}
+		// TODO: 将来的には、テーブル結合した結果を返却する --- end ---
 
 		if result.RecordNotFound() {
 			fmt.Printf("レコードが見つかりません")
@@ -75,7 +69,7 @@ func FetchPet() echo.HandlerFunc {
 			return c.JSON(http.StatusFound, "該当のペットが見つかりませんでした")
 		}
 
-		return c.JSON(http.StatusOK, pet)
+		return c.JSON(http.StatusOK, topInfo)
 	}
 }
 
@@ -118,7 +112,7 @@ func PostSchedule() echo.HandlerFunc {
 			fmt.Println()
 			return c.JSON(http.StatusBadRequest, "bad request")
 		}
-		schedule.PetId, _ = strconv.Atoi(c.Param("id"))
+		schedule.PetId = c.Param("id")
 		schedule.CreatedAt = time.Now()
 		schedule.UpdatedAt = time.Now()
 		fmt.Println(schedule)

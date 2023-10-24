@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS `pets` (
   `name` VARCHAR(255) NULL COMMENT '名前',
   `birth_day` DATETIME NULL COMMENT '誕生日',
   `sex` BIGINT NULL COMMENT '性別',
+  `now_weight` BIGINT NULL COMMENT '現在体重',
+  `target_weight` BIGINT NULL COMMENT '目標体重',
   `created_at` DATETIME NOT NULL COMMENT '作成日時',
   `updated_at` DATETIME NOT NULL COMMENT '更新日時',
   PRIMARY KEY (`id`))
