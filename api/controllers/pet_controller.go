@@ -29,23 +29,22 @@ func FetchPet() echo.HandlerFunc {
 		// TODO: 将来的には、テーブル結合した結果を返却する
 		result := db.First(&pet, id)
 		fmt.Printf("pet:: %v\n", &pet)
+		// TODO: swaggerと同じ、一旦下記のJSONを返せるようにする
 		// 実際にはこのJSONを返す必要がある
 		// {
-		// 	"baseInfo": {
+		// 	"pet": {
 		// 		"name": "チャイ",
 		// 		"age": "3歳8ヶ月",
 		// 		"sex": "メス",
+		// 		"now_weight": "4.8kg",
+		// 		"target_weight": "5.2kg",
 		// 		"birthday": "2020年1月27日"
 		// 	},
-		// 	"now_wight": {
-		// 		"weight": "4.8kg",
-		// 		"date": "2023年9月13日 10:00"
-		// 	},
-		// 	"target_wight": {
-		// 		"weight": "5.2kg"
-		// 	},
 		// 	"dosage_schedule": {
-		// 		"today": "なし",
+		// 		"today": {
+		// 			"name": "-",
+		// 			"date": "2023年9月15日 10:00"
+		// 		},
 		// 		"next": {
 		// 			"name": "ネクスがーど",
 		// 			"date": "2023年9月15日 10:00"
