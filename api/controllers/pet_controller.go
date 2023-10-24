@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo"
 	dbconnect "github.com/myantyuWorld/animal_healthcate/database"
-	"github.com/myantyuWorld/animal_healthcate/model"
+	"github.com/myantyuWorld/animal_healthcate/domain/model"
 )
 
 // TODO: [同じ処理が多い、テンプレートパターンで処理を抽象化したい] Golangで、デザインパターン「Template Method」を学ぶ | https://qiita.com/ttsubo/items/a36c6fc9acac3513b4af
