@@ -103,28 +103,26 @@ components:
               type: string
             sex:
               type: string
+            now_weight:
+              type: string
+            target_weight:
+              type: string
             birthday:
               type: string
               format: date
               example: "yyyy年M月D日 HH:MM"
               nullable: true
-        weight_info:
-          type: object
-          properties:
-            weight:
-              type: integer
-            update_date:
-              type: string
-              format: date
-              example: "yyyy年M月D日 HH:MM"
-              nullable: true
-        target_weight:
-          type: integer
         dosage_schedule:
           type: object
           properties:
             today:
-              type: string
+              type: object
+              properties:
+                name: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
             next:
               type: object
               properties:
@@ -268,18 +266,17 @@ components:
           name: チャイ
           age: 3歳8ヶ月
           sex: メス
+          now_weight: 4.8kg
+          target_weight: 5.2kg
           # 誕生日は年月日のみの表記のため修正
           birthday: 2020年1月27日
           # birthday: 2020年1月27日 10:00
-        now_wight:
-          weight: 4.8kg
-          date: 2023年9月13日 10:00
-        target_wight:
-          weight: 5.2kg
           # 目標体重にdateは不要なので削除
           # date: 2023年9月13日 10:00
         dosage_schedule:
-          today: なし
+          today:
+            name: "" # 予定がない場合は空白 
+            date: 2023年9月1日 10:00
           next: 
             name: ネクスがーど
             date: 2023年9月15日 10:00
