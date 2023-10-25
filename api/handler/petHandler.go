@@ -8,11 +8,17 @@ import (
 )
 
 type PetHandler struct {
-	petUsecase usecase.PetUsecase
+	// TODO: こう考えたから、ここに、PetUsecase, ScheduleUsecase（や、他の画面用のusecaseも入れていく）を入れたことを明記
+	petUsecase      usecase.PetUsecase
+	scheduleUsecase usecase.ScheduleUsecase
 }
 
-func NewPetHandler(petUsecase usecase.PetUsecase) PetHandler {
-	petHandler := PetHandler{petUsecase: petUsecase}
+func NewPetHandler(petUsecase usecase.PetUsecase, scheduleUsecase usecase.ScheduleUsecase) PetHandler {
+	petHandler := PetHandler{
+		petUsecase:      petUsecase,
+		scheduleUsecase: scheduleUsecase,
+	}
+
 	return petHandler
 }
 

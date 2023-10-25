@@ -19,12 +19,23 @@ func InjectPetRepository() repository.PetRepository {
 	sqlHandler := InjectDB()
 	return infra.NewPetRepository(sqlHandler)
 }
+func InjectScheduleRepository() repository.ScheduleRepository {
+	sqlHandler := InjectDB()
+	return infra.NewScheduleRepository(sqlHandler)
+}
 
 func InjectPetUsecase() usecase.PetUsecase {
 	PetRepo := InjectPetRepository()
 	return usecase.NewPetUsecase(PetRepo)
 }
+func InjectScheduleUsecase() usecase.ScheduleUsecase {
+	ScheduleRepo := InjectScheduleRepository()
+	return usecase.NewScheduleUsecase(ScheduleRepo)
+}
 
 func InjectPetHandler() handler.PetHandler {
-	return handler.NewPetHandler(InjectPetUsecase())
+	return handler.NewPetHandler(
+		InjectPetUsecase(),
+		InjectScheduleUsecase(),
+	)
 }

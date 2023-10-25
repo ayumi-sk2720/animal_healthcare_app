@@ -8,6 +8,10 @@ import (
 	"github.com/myantyuWorld/animal_healthcate/domain/repository"
 )
 
+/***
+* repository --|> infra
+* 実現したい振る舞いをrepositoryで定義し、ここで実装していく
+***/
 type PetRepository struct {
 	SqlHandler
 }

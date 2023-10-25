@@ -6,6 +6,7 @@ import (
 )
 
 type PetUsecase interface {
+	// ユースケースを増やす場合は、ここに宣言し、implements
 	TopView(petId string) (topInfo *model.TopInfo, err error)
 }
 
