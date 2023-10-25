@@ -1,4 +1,4 @@
-package dbconnect
+package infra
 
 import (
 	"log"
@@ -7,12 +7,18 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-// TODO: seedで使っているが、sqlhandlerを使うように変更したい
-func Connect() *gorm.DB {
+type SqlHandler struct {
+	Conn *gorm.DB
+}
+
+func NewSqlHandler() *SqlHandler {
 	dsn := "root:hogehoge@tcp(db:3306)/dev?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open("mysql", dsn)
+	conn, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("Couldn't establish database connection: %s", err)
+		panic(err.Error)
 	}
-	return db
+	sqlHandler := new(SqlHandler)
+	sqlHandler.Conn = conn
+	return sqlHandler
 }
