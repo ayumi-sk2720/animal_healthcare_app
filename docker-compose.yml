@@ -8,13 +8,6 @@ services:
     volumes:
       - ./vue:/vue
     tty: true
-  prism:
-    image: stoplight/prism:4
-    command: 'mock -h 0.0.0.0 /tmp/swagger.yml'
-    volumes:
-      - ./api/swagger/swagger.yml:/tmp/swagger.yml:ro
-    ports:
-      - '4010:4010'
   api:
     build: ./api
     container_name: go-api-container
@@ -41,3 +34,14 @@ services:
     ports:
       - "3400:3306" # ローカルのMySQLのportと被らないように設定する
     tty: true
+  #
+  # Mockサーバーとして使用
+  # Prism Overview | https://docs.stoplight.io/docs/prism/674b27b261c3c-prism-overview
+  # 
+  prism:
+    image: stoplight/prism:4
+    command: 'mock -h 0.0.0.0 /tmp/swagger.yml'
+    volumes:
+      - ./api/document/swagger/swagger.yml:/tmp/swagger.yml:ro
+    ports:
+      - '4010:4010'
