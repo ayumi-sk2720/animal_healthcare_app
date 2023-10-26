@@ -68,10 +68,6 @@ paths:
                 location:
                   type: string
                   nullable: true
-              required:
-                - name
-                - question
-                - trigger
       description: |
         ## トリミング、通院などの予定を日時、場所とともに登録します
       responses:
