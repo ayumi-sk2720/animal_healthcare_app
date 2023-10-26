@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -15,7 +16,12 @@ func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
 }
 
 func InitRouting(e *echo.Echo, petHandler PetHandler) {
-	e.Use(middleware.CORS())
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORS()) // 以下を追加
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:8080", "http://localhost:3000"},
+		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPost, http.MethodDelete, http.MethodOptions},
+	}))
 	e.Use(middleware.BodyDump(bodyDumpHandler))
 
 	e.GET("/pet/:id", petHandler.TopView())
