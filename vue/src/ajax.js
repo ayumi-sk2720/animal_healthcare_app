@@ -26,7 +26,7 @@ export default class Ajax {
         headers['Content-Type'] = 'application/json; charset=utf-8'
 
         const axiosInstance = axios.create({
-            baseURL: 'http://localhost:8080/',
+            baseURL: 'http://localhost:4010/',
             headers,
             responseType,
             withCredentials: true,
@@ -68,26 +68,8 @@ export default class Ajax {
 
     responseErrorHandler = (response) => {
         const data = response.data
-        const method = response.config.method
-
         return new Promise((resolve, reject) => {
-            if (data.messageId != '00000000') {
-                if (!('message' in data) && !('url' in data)) {
-                    reject(new Error('エラーです'))
-                } else if ('message' in data) {
-                    reject(new Error(data.message))
-                } else if ('url' in data) {
-                    location.href = data.url
-                }
-            } else {
-                if (method == 'get' && !('data' in data)) {
-                    const errorMessage = 'message' in data ? data.message : 'エラーです'
-    
-                    return reject(new Error(errorMessage))
-                }
-                // 正常ケース
-                resolve(response)
-            }
+            resolve(response)
         })
     }
 
