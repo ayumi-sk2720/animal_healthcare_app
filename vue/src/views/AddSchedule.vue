@@ -14,7 +14,7 @@
             </div>
             <div class="max-w-7xl p-4">
                 <label for="place" class="block p-2">場所</label>
-                <input type="text" id="place" placeholder="例）ペテモ 立川店" class="block w-full p-2 border border-gray-700 rounded" v-model="basyo">
+                <input type="text" id="place" placeholder="例）ペテモ 立川店" class="block w-full p-2 border border-gray-700 rounded" v-model="place">
             </div>
             <div class="p-4 text-center">
                 <button type="submit" class="w-4/5 p-3 bg-orange-500 text-white rounded" v-on:click="onClickPost">作成する</button>
@@ -24,14 +24,14 @@
 </template>
 
 <script>
-import axios from 'axios';
+import AjaxRequestWrapper from '../ajaxWrapper.js'
 export default {
     data(){
         return{
             schedule: [],
             title: '',
             date: '',
-            basyo: '',
+            place: '',
         }
     },
     mounted(){
@@ -40,7 +40,25 @@ export default {
         onClickPost: function (e) {
             console.log(this.title) // トリミング
             console.log(this.date)  // 2023-10-27T12:13
-            console.log(this.basyo) // hogehoge
+            console.log(this.place) // hogehoge
+
+            new AjaxRequestWrapper(
+                'pet/2/schedule',
+                {
+                    title: this.title,
+                    date: this.date,
+                    location: this.place,   
+                },
+                "errorです",
+                () => {
+                    console.log("成功です")
+                },
+                () => {
+                    console.log("失敗です")
+                },
+                null,
+                false
+            ).post()
         }
     }
 }

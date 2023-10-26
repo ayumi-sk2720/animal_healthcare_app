@@ -1,4 +1,3 @@
-import { loading } from '../../../../components/loading'
 import Ajax from './ajax'
 
 
@@ -83,9 +82,9 @@ export default class AjaxRequestWrapper extends Ajax {
      * @param {*} promise Promiseオブジェクト
      */
     _doAction = (promise) => {
-        if (this.isLoadingAnimation) {
-            loading.start(this.loadingTarget)
-        }
+        // if (this.isLoadingAnimation) {
+        //     loading.start(this.loadingTarget)
+        // }
 
         promise
             .then((response) => {
@@ -103,9 +102,9 @@ export default class AjaxRequestWrapper extends Ajax {
                 this.errorProcess(e)
             })
             .finally(() => {
-                if (this.isLoadingAnimation) {
-                    loading.end()
-                }
+                // if (this.isLoadingAnimation) {
+                //     loading.end()
+                // }
             })
     }
 }

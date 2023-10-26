@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { constants } from '../../../../conf/constants'
+// import { constants } from '../../../../conf/constants'
 
 export default class Ajax {
     constructor (errorMessage) {
@@ -22,15 +22,15 @@ export default class Ajax {
             // Origin: location.origin,
             // Referer: location.href,
         }
-        headers.CSRFToken = $('meta[name="_csrf"]').attr('content')
+        // headers.CSRFToken = $('meta[name="_csrf"]').attr('content')
         headers['Content-Type'] = 'application/json; charset=utf-8'
 
         const axiosInstance = axios.create({
-            baseURL: constants.API_BASE_URL,
+            baseURL: 'http://localhost/',
             headers,
             responseType,
             withCredentials: true,
-            timeout: constants.API_REQUEST_TIMEOUT,
+            timeout: 3000,
         })
 
         axiosInstance.interceptors.response.use(
@@ -48,9 +48,9 @@ export default class Ajax {
                 // ウィジェット内にエラーを描画する必要がない場合、呼び出しもとで、"isErrorPageRedirect = true"にして、汎用エラーページに遷移させる
                 // ■ケース２ : システムエラー(HTTP STATUS == 404{プロトコルレベルエラー})
                 // ■ケース3 : システムエラー(HTTP STATUS == 403,401,500)
-                if (isErrorPageRedirect && error.response) {
-                    location.href = constants.DEFAULT_ERROR_PAGE
-                }
+                // if (isErrorPageRedirect && error.response) {
+                //     location.href = constants.DEFAULT_ERROR_PAGE
+                // }
                 //
                 // そのまま"error"をリジェクトすると、たとえば、「Request failed with status code 403」
                 // というエラーメッセージがウィジェットに一瞬描画されてしまう、
@@ -72,7 +72,7 @@ export default class Ajax {
         return new Promise((resolve, reject) => {
             if (data.messageId != '00000000') {
                 if (!('message' in data) && !('url' in data)) {
-                    reject(new Error(constants.ERROR_MSG_0001))
+                    reject(new Error('エラーです'))
                 } else if ('message' in data) {
                     reject(new Error(data.message))
                 } else if ('url' in data) {
@@ -80,7 +80,7 @@ export default class Ajax {
                 }
             } else {
                 if (method == 'get' && !('data' in data)) {
-                    const errorMessage = 'message' in data ? data.message : constants.ERROR_MSG_0001
+                    const errorMessage = 'message' in data ? data.message : 'エラーです'
     
                     return reject(new Error(errorMessage))
                 }
