@@ -46,15 +46,19 @@ export default {
                 'pet/2/schedule',
                 {
                     title: this.title,
-                    date: this.date,
+                    // date: this.date,
+                    date: "2023-10-19T18:58:18+09:00",
                     location: this.place,   
                 },
                 "errorです",
-                () => {
+                (response) => {
                     console.log("成功です")
+                    console.log(response)
                 },
-                () => {
+                (e) => {
                     console.log("失敗です")
+                    console.log(e)
+
                 },
                 null,
                 false

@@ -26,7 +26,7 @@ export default class Ajax {
         headers['Content-Type'] = 'application/json; charset=utf-8'
 
         const axiosInstance = axios.create({
-            baseURL: 'http://localhost/',
+            baseURL: 'http://localhost:8080/',
             headers,
             responseType,
             withCredentials: true,
@@ -42,6 +42,7 @@ export default class Ajax {
                     return Promise.reject(new Error(this.errorMessage))
                 }
                 if (!error.response) {
+                    console.log(error)
                     // エラー時レスポンス自体がない場合、インターネット接続断絶とみなし、ウィジェット内描画を行う
                     return Promise.reject(new Error(this.errorMessage))
                 }
