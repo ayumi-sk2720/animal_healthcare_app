@@ -100,6 +100,7 @@ export default {
         }
     },
     mounted(){
+        // TODO : AjaxWrapperに差し替え
         axios
         .get('http://localhost:8080/pet/2')
         .then(
@@ -112,7 +113,6 @@ export default {
                 this.nextSchedules = response.data.schedules[1]
             }
         )
-        // .then(response =>  this.info = response )
         .catch( e => this.error = e )
         .finally( msg => this.message = {title: "finallyを実行しました", message: msg} )
     }
