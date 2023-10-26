@@ -23,17 +23,17 @@
             <div class="p-4 lg:px-6 bg-white rounded-lg w-6/12 me-4">
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">体重</p>
-                    <p class="text-lg">{{ nowWeight.weight }}</p>
+                    <p class="text-lg">{{ baseInfo.now_weight }}</p>
                 </div>
                 <div class="p-2 flex items-center">
                     <p class="text-xs py-2 text-gray-500">最終更新</p>
-                    <p class="text-xs py-2 ml-4">{{ nowWeight.date }}</p>
+                    <p class="text-xs py-2 ml-4">{{ baseInfo.updated_at }}</p>
                 </div>
             </div>
             <div class="p-4 lg:px-6 bg-white rounded-lg w-6/12">
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">目標体重</p>
-                    <p class="text-lg">{{ targetWight.weight}}</p>
+                    <p class="text-lg">{{ baseInfo.target_weight}}</p>
                 </div>
             </div>
         </div>
@@ -41,13 +41,13 @@
             <div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">今日のお薬</p>
-                    <p class="text-lg">{{ dosageSchedule.today }}</p>
+                    <p class="text-lg">{{ dosageSchedule.title }}</p>
                 </div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">次の投薬</p>
                     <div class="flex items-center">
                         <p class="text-xs">{{ dosageNextSchedule.date }}</p>
-                        <p class="text-lg ml-4">{{ dosageNextSchedule.name }}</p>
+                        <p class="text-lg ml-4">{{ dosageNextSchedule.title }}</p>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
             <div>
                 <div class="p-2">
                     <p class="text-sm py-2 text-gray-500">気になるメモ</p>
-                    <p class="text-lg">{{ memo.text }}</p>
+                    <p class="text-lg">{{ memo.title }}</p>
                 </div>
                 <div class="p-2 flex items-center">
                     <p class="text-xs py-2 text-gray-500">最終更新</p>
@@ -70,11 +70,11 @@
                     <p class="text-sm py-2 text-gray-500">次の予定</p>
                     <div class="flex items-center py-2">
                         <p class="text-xs">{{ schedules.date }}</p>
-                        <p class="text-lg ml-4">{{ schedules.name }}</p>
+                        <p class="text-lg ml-4">{{ schedules.title }}</p>
                     </div>
                     <div class="flex items-center py-2">
                         <p class="text-xs">{{ nextSchedules.date }}</p>
-                        <p class="text-lg ml-4">{{ nextSchedules.name }}</p>
+                        <p class="text-lg ml-4">{{ nextSchedules.title }}</p>
                     </div>
                 </div>
             </div>
@@ -100,21 +100,19 @@ export default {
         }
     },
     mounted(){
+        // TODO : AjaxWrapperに差し替え
         axios
-        .get('http://127.0.0.1:4010/pet/info')
+        .get('http://localhost:8080/pet/2')
         .then(
             response => {
-                this.baseInfo = response.data.baseInfo,
-                this.nowWeight = response.data.now_wight,
-                this.targetWight = response.data.target_wight,
-                this.dosageSchedule = response.data.dosage_schedule,
-                this.dosageNextSchedule = response.data.dosage_schedule.next,
+                this.baseInfo = response.data.pet,
+                this.dosageSchedule = response.data.dosage_schedules.today,
+                this.dosageNextSchedule = response.data.dosage_schedules.next,
                 this.memo = response.data.memo,
                 this.schedules = response.data.schedules[0]
                 this.nextSchedules = response.data.schedules[1]
             }
         )
-        // .then(response =>  this.info = response )
         .catch( e => this.error = e )
         .finally( msg => this.message = {title: "finallyを実行しました", message: msg} )
     }

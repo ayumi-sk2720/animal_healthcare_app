@@ -42,7 +42,7 @@ paths:
             $ref: '#/components/responses/GetPetInfo'
         500:
           $ref: '#/components/responses/InternalServerError'
-  /pet/{pet_id}/schedules:
+  /pet/{pet_id}/schedule:
     post:
       tags:
         - pet
@@ -68,10 +68,6 @@ paths:
                 location:
                   type: string
                   nullable: true
-              required:
-                - name
-                - question
-                - trigger
       description: |
         ## トリミング、通院などの予定を日時、場所とともに登録します
       responses:
