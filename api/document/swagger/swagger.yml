@@ -5,43 +5,54 @@ info:
 tags:
   - name: pet
     description: ペット情報
-  - name: user
-    description: ユーザー情報
 paths:
 # https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Type%20Something%20
 # ==========================================
 #
 # ██████╗ ███████╗████████╗
 # ██╔══██╗██╔════╝╚══██╔══╝
-# ██████╔╝█████╗     ██║
-# ██╔═══╝ ██╔══╝     ██║
-# ██║     ███████╗   ██║
-# ╚═╝     ╚══════╝   ╚═╝
+# ██████╔╝█████╗     ██║   
+# ██╔═══╝ ██╔══╝     ██║   
+# ██║     ███████╗   ██║   
+# ╚═╝     ╚══════╝   ╚═╝   
 #
 # ==========================================
-  /pet/info:
+  /pet/{pet_id}:
     get:
       tags:
         - pet
       summary: ペット管理システムのTOP画面用
-      description: |
+      description: | 
         ## ペットちゃん管理システムのTOP画面用のデータを返却します
         ### ■ データ取得元
         - ペット基本情報テーブル
         - 体重推移テーブル
         - 投薬予定（今日分（なし、なら、なし）と、直近の予定）テーブル
+        - 体調テーブル（食事、汗、うんち // TODO: これってどこで登録する？
         - 気になるメモテーブル
         - 予定テーブル（直近２件）
+      parameters:
+        - in: path
+          name: pet_id
+          required: true
+          schema: 
+            type: integer
       responses:
         200:
             $ref: '#/components/responses/GetPetInfo'
         500:
           $ref: '#/components/responses/InternalServerError'
-  /pet/schedule:
+  /pet/{pet_id}/schedules:
     post:
       tags:
         - pet
       summary: 予定登録
+      parameters:
+        - in: path
+          name: pet_id
+          required: true
+          schema: 
+            type: integer
       requestBody:
         content:
           application/json:
@@ -68,96 +79,15 @@ paths:
             $ref: '#/components/responses/PostSchedule'
         500:
           $ref: '#/components/responses/InternalServerError'
-
-# ==========================================
-#
-# ██╗   ██╗███████╗███████╗██████╗ ███████╗
-# ██║   ██║██╔════╝██╔════╝██╔══██╗██╔════╝
-# ██║   ██║███████╗█████╗  ██████╔╝███████╗
-# ██║   ██║╚════██║██╔══╝  ██╔══██╗╚════██║
-# ╚██████╔╝███████║███████╗██║  ██║███████║
-#  ╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝
-#
-# ==========================================
-  /users:
-    get:
-      tags:
-        - user
-      summary: ユーザー一覧API
-      description: |
-        ユーザーをデフォルトで全件取得して返却します <br>
-        idの昇順。
-      responses:
-        200:
-          $ref: '#/components/responses/GetUsers'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-    post:
-      tags:
-        - user
-      summary: ユーザー登録API
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  nullable: false
-                nickname:
-                  type: string
-                  nullable: false
-                address:
-                  type: string
-                  nullable: false
-                age:
-                  type: integer
-                  nullable: false
-                birthday:
-                  type: string
-                  format: date
-                  nullable: false
-                trigger:
-                  type: array
-                  example: []
-                question:
-                  type: string
-                  nullable: false
-              required:
-                - name
-                - question
-                - trigger
-      responses:
-        200:
-          $ref: '#/components/responses/GetUser'
-  /users/{userId}:
-    get:
-      tags:
-        - user
-      summary: ユーザー詳細API
-      description: |
-        ユーザー詳細を取得して返却します <br>
-      parameters:
-        - $ref: '#/components/parameters/UserId'
-      responses:
-        200:
-          $ref: '#/components/responses/GetUser'
-        400:
-          $ref: '#/components/responses/IllegalInput'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/InternalServerError'
 # ====================================================================================
-#
+# 
 #  ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███╗   ██╗███████╗███╗   ██╗████████╗███████╗
 # ██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔═══██╗████╗  ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
 # ██║     ██║   ██║██╔████╔██║██████╔╝██║   ██║██╔██╗ ██║█████╗  ██╔██╗ ██║   ██║   ███████╗
 # ██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║   ██║██║╚██╗██║██╔══╝  ██║╚██╗██║   ██║   ╚════██║
 # ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝██║ ╚████║███████╗██║ ╚████║   ██║   ███████║
 # ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
-#
+# 
 # ====================================================================================
 components:
   schemas:
@@ -173,54 +103,71 @@ components:
               type: string
             sex:
               type: string
+            now_weight:
+              type: string
+            target_weight:
+              type: string
             birthday:
               type: string
               format: date
               example: "yyyy年M月D日 HH:MM"
               nullable: true
-        weight_info:
+        physical_condition:
           type: object
           properties:
-            weight:
+            food: 
               type: integer
-            update_date:
+              example: "3::◎/2::○/1::△"
+            sweat: 
+              type: integer
+            toilet: 
+              type: integer
+        memo:
+          type: object
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            date:
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+        schedules: # イベントスケジュール
+          type: array
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            date:
               type: string
               format: date
               example: "yyyy年M月D日 HH:MM"
-              nullable: true
-        target_weight:
-          type: integer
-        dosage_schedule:
+            location:
+              type: string
+        dosage_schedules: # 投薬スケジュール
           type: object
           properties:
             today:
-              type: string
-            next:
               type: object
               properties:
-                name:
+                id:
+                  type: integer
+                title: 
                   type: string
                 date:
                   format: date
                   example: "yyyy年M月D日 HH:MM"
-        # メモは最終更新日が必要なので修正
-        memo:
-          type: string
-          properties:
-            text:
-              type: string
-            date:
-              format: date
-              example: "yyyy年M月D日 HH:MM"
-        schedules:
-          type: array
-          properties:
-            date:
-              type: string
-              format: date
-              example: "yyyy年M月D日 HH:MM"
-            name:
-              type: string
+            next:
+              type: object
+              properties:
+                id:
+                  type: integer
+                title: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
       required:
       - baseInfo
       - name
@@ -315,8 +262,8 @@ components:
 #
 # ███████╗██╗  ██╗ █████╗ ███╗   ███╗██████╗ ██╗     ███████╗
 # ██╔════╝╚██╗██╔╝██╔══██╗████╗ ████║██╔══██╗██║     ██╔════╝
-# █████╗   ╚███╔╝ ███████║██╔████╔██║██████╔╝██║     █████╗
-# ██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝
+# █████╗   ╚███╔╝ ███████║██╔████╔██║██████╔╝██║     █████╗  
+# ██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝  
 # ███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║██║     ███████╗███████╗
 # ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝
 #
@@ -325,40 +272,49 @@ components:
     # pet
     GetPetInfo:
       value:
-        baseInfo:
+        baseInfo: 
           name: チャイ
           age: 3歳8ヶ月
           sex: メス
+          now_weight: 4.8kg
+          target_weight: 5.2kg
           # 誕生日は年月日のみの表記のため修正
           birthday: 2020年1月27日
           # birthday: 2020年1月27日 10:00
-        now_wight:
-          weight: 4.8kg
-          date: 2023年9月13日 10:00
-        target_wight:
-          weight: 5.2kg
           # 目標体重にdateは不要なので削除
           # date: 2023年9月13日 10:00
-        dosage_schedule:
-          today: なし
-          next:
-            name: ネクスガード
+        dosage_schedules:
+          today:
+            id: 1
+            title: "" # 予定がない場合は空白 
+            date: 2023年9月1日 10:00
+          next: 
+            id: 2
+            title: ネクスがーど
             date: 2023年9月15日 10:00
-        # メモは最終更新日が必要なので修正
-        memo:
-          text: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
-          date: 2023年9月15日 10:00
+        physical_condition:
+          food: 3
+          sweat: 2
+          toilet: 1 
+        memo: 
+            id: 1
+            title: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+            date: 2023年9月15日 10:00
         schedules:
-          - date: 2023年9月20日 10:00
-            name: トリミング
-          - date: 2023年9月30日 14:00
-            name: 通院
+          - id: 1
+            date: 2023年9月20日 10:00
+            title: トリミング
+            location: ペテモ立川点
+          - id: 2
+            date: 2023年9月30日 14:00
+            title: 通院
+            location: ホゲホゲ病院
     # schedule
     PostSchedule:
       value:
         date: 2023年9月15日 10:00
-        title: トリミング
-        location: ペテモ立川店
+        title: 通院
+        location: ペテモ立川点
     GetUsersCommon:
       value:
       - id: 248c8027-b752-db4c-76c1-fb22a05e9591
@@ -406,12 +362,12 @@ components:
 #
 # ██████╗ ███████╗███████╗██████╗  ██████╗ ███╗   ██╗███████╗███████╗
 # ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔═══██╗████╗  ██║██╔════╝██╔════╝
-# ██████╔╝█████╗  ███████╗██████╔╝██║   ██║██╔██╗ ██║███████╗█████╗
-# ██╔══██╗██╔══╝  ╚════██║██╔═══╝ ██║   ██║██║╚██╗██║╚════██║██╔══╝
+# ██████╔╝█████╗  ███████╗██████╔╝██║   ██║██╔██╗ ██║███████╗█████╗  
+# ██╔══██╗██╔══╝  ╚════██║██╔═══╝ ██║   ██║██║╚██╗██║╚════██║██╔══╝  
 # ██║  ██║███████╗███████║██║     ╚██████╔╝██║ ╚████║███████║███████╗
 # ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝
 #
-# ====================================================================================
+# ====================================================================================                                                                   
   responses:
     GetPetInfo:
       description: successful operation
@@ -433,7 +389,7 @@ components:
           examples:
             GetUsersCommon:
               $ref: '#/components/examples/PostSchedule'
-
+                
     GetUsers:
       description: successful operation
       content:
