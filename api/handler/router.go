@@ -17,10 +17,21 @@ func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
 
 func InitRouting(e *echo.Echo, petHandler PetHandler) {
 	e.Use(middleware.Logger())
+	// TODO: ？？？　GolangでXMLHttpRequestLevel2+CORSのプリフライトが通るサーバーを立てる(BasicAuth付き) | https://qiita.com/romot/items/b49f7d9e28101daaa99e
 	e.Use(middleware.CORS()) // 以下を追加
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://localhost:8080", "http://localhost:3000"},
-		AllowMethods: []string{http.MethodGet, http.MethodPost, http.MethodPost, http.MethodDelete, http.MethodOptions},
+		AllowOrigins: []string{
+			"http://localhost:8080",
+			"http://localhost:3000",
+		},
+		AllowMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodDelete,
+			http.MethodPut,
+			http.MethodOptions,
+		},
 	}))
 	e.Use(middleware.BodyDump(bodyDumpHandler))
 
