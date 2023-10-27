@@ -41,15 +41,11 @@ export default {
             console.log(this.title) // トリミング
             console.log(this.date)  // 2023-10-27T12:13
             console.log(this.place) // hogehoge
+            var param = {}
 
             new AjaxRequestWrapper(
                 'pet/2/schedule',
-                {
-                    title: this.title,
-                    // date: this.date,
-                    date: "2023-10-19T18:58:18+09:00",
-                    location: this.place,   
-                },
+                param,
                 "errorです",
                 (response) => {
                     console.log("成功です")

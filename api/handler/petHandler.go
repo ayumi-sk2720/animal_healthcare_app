@@ -36,6 +36,8 @@ func (handler *PetHandler) TopView() echo.HandlerFunc {
 
 func (handler *PetHandler) PostSchedule() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		fmt.Println("hello Post Schedule!")
+
 		schedule := new(model.Schedule)
 		if error := c.Bind(&schedule); error != nil {
 			fmt.Println(error)

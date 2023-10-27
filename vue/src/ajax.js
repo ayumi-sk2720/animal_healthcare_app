@@ -19,14 +19,13 @@ export default class Ajax {
             Accept: `application/json`,
             // 以下、３つのヘッダー情報は、XHRで設定できないヘッダーのよう[https://asnokaze.hatenablog.com/entry/20110530/1306720270]
             // Cookie: jsId, // axiosの場合、Cookieはこういう設定ではなく、AxiosRequestConfig.withCredentials=trueで指定したことになる？
-            // Origin: location.origin,
             // Referer: location.href,
         }
         // headers.CSRFToken = $('meta[name="_csrf"]').attr('content')
         headers['Content-Type'] = 'application/json; charset=utf-8'
 
         const axiosInstance = axios.create({
-            baseURL: 'http://localhost:4010/',
+            baseURL: 'http://localhost:8080/',
             headers,
             responseType,
             withCredentials: true,
@@ -36,6 +35,7 @@ export default class Ajax {
         axiosInstance.interceptors.response.use(
             (response) => response,
             (error) => {
+                console.log(error)
                 const isTimeout = error.code === 'ECONNABORTED'
                 if (isTimeout) {
                     // リクエストタイムアウトが発生した場合、ホーム画面のウィジェットにエラーメッセージを表示するため、rejectする
