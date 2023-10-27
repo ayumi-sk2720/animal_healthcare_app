@@ -4,9 +4,8 @@ WORKDIR /vue
 COPY . /vue
 
 RUN apt-get update -qq \
-    && yarn global add @vue/cli \
-    && yarn
-
+    && yarn global add @vue/cli
+    
 EXPOSE 8080
 
-CMD ["yarn", "run", "serve"]
+CMD sh -c "yarn && yarn run serve"
