@@ -39,11 +39,16 @@ func (handler *PetHandler) PostSchedule() echo.HandlerFunc {
 		fmt.Println("hello Post Schedule!")
 
 		schedule := new(model.Schedule)
-		if error := c.Bind(&schedule); error != nil {
-			fmt.Println(error)
-			return c.JSON(http.StatusBadRequest, "bad request")
-		}
 		schedule.PetId = c.Param("id")
+		if err := c.Bind(schedule); err != nil {
+			fmt.Println(err)
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		// validate
+		if err := c.Validate(schedule); err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+
 		error := handler.scheduleUsecase.Create(schedule)
 		return c.JSON(http.StatusOK, error)
 	}
