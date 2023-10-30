@@ -19,5 +19,7 @@ RUN go install github.com/cosmtrek/air@latest
 RUN go get -u gorm.io/gorm && go get -u gorm.io/driver/mysql
 # sqlmigrate
 RUN go install github.com/rubenv/sql-migrate/...@latest
-# CMD ["air"]
-CMD sh -c "sql-migrate up && go run integration/seed/pets_seed.go && air"
+CMD ["air"]
+
+# TODO: makeでsql-migrate実行したいが、エラーで転けてしまう | Migration failed: dial tcp 192.168.208.5:3306: connect: connection refused
+# CMD sh -c "sql-migrate up && go run integration/seed/pets_seed.go && air"
