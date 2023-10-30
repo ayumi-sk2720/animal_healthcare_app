@@ -26,7 +26,7 @@ func (petRepo *PetRepository) TopView(petId string) (topInfo *model.TopInfo, err
 	result := petRepo.SqlHandler.Conn.Find(&pet, petId)
 	if result.RecordNotFound() {
 		fmt.Print("error")
-		return
+		panic(err)
 	}
 
 	topInfo = &model.TopInfo{}
