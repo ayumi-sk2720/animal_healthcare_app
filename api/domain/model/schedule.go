@@ -3,7 +3,7 @@ package model
 import "time"
 
 type Schedule struct {
-	Id        string    `gorm:"primary_key" json:"id"`
+	Id        int       `gorm:"primary_key" json:"id"`
 	PetId     string    `json:"pet_id" validate:"required"`
 	Title     string    `json:"title" validate:"required"`
 	Date      time.Time `json:"date" validate:"required"`

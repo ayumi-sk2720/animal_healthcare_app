@@ -27,8 +27,10 @@ func NewPetHandler(petUsecase usecase.PetUsecase, scheduleUsecase usecase.Schedu
 func (handler *PetHandler) TopView() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		models, err := handler.petUsecase.TopView(c.Param("id"))
+		fmt.Println(err)
+
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, models)
+			return c.JSON(http.StatusBadRequest, err)
 		}
 		return c.JSON(http.StatusOK, models)
 	}
@@ -49,7 +51,9 @@ func (handler *PetHandler) PostSchedule() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, err)
 		}
 
-		error := handler.scheduleUsecase.Create(schedule)
-		return c.JSON(http.StatusOK, error)
+		if err := handler.scheduleUsecase.Create(schedule); err != nil {
+			return c.JSON(http.StatusInternalServerError, err)
+		}
+		return c.JSON(http.StatusOK, schedule)
 	}
 }
