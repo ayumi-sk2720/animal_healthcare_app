@@ -15,6 +15,9 @@ restart:
 exec-vue:
 	docker-compose exec vue /bin/bash
 
+exec-vts:
+	docker-compose exec vue_ts /bin/bash
+
 exec-api:
 	docker-compose exec api /bin/bash
 
