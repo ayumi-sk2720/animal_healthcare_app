@@ -27,8 +27,9 @@ func NewPetHandler(petUsecase usecase.PetUsecase, scheduleUsecase usecase.Schedu
 func (handler *PetHandler) TopView() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		models, err := handler.petUsecase.TopView(c.Param("id"))
+
 		if err != nil {
-			return c.JSON(http.StatusBadRequest, models)
+			return c.JSON(http.StatusBadRequest, err)
 		}
 		return c.JSON(http.StatusOK, models)
 	}
@@ -36,13 +37,22 @@ func (handler *PetHandler) TopView() echo.HandlerFunc {
 
 func (handler *PetHandler) PostSchedule() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		fmt.Println("hello Post Schedule!")
+
 		schedule := new(model.Schedule)
-		if error := c.Bind(&schedule); error != nil {
-			fmt.Println(error)
-			return c.JSON(http.StatusBadRequest, "bad request")
-		}
 		schedule.PetId = c.Param("id")
-		error := handler.scheduleUsecase.Create(schedule)
-		return c.JSON(http.StatusOK, error)
+		if err := c.Bind(schedule); err != nil {
+			fmt.Println(err)
+			return c.JSON(http.StatusBadRequest, err)
+		}
+		// validate
+		if err := c.Validate(schedule); err != nil {
+			return c.JSON(http.StatusBadRequest, err)
+		}
+
+		if err := handler.scheduleUsecase.Create(schedule); err != nil {
+			return c.JSON(http.StatusInternalServerError, err)
+		}
+		return c.JSON(http.StatusOK, schedule)
 	}
 }
