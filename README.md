@@ -49,7 +49,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    a[mockgen domain/***.go -destination integration/test/mock_repository_***.go]  --> b[touch integration/test/mock_usecase_***_test.go]
+    a[mockgen -source domain/repository/***.go -destination integration/test/mock_repository_***.go]  --> b[touch integration/test/mock_usecase_***_test.go]
     b --> c[テストコードを実装]
     c --> d[cd integration]
     d --> e[go test -v]
