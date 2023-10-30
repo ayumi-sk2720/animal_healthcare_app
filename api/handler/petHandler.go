@@ -27,7 +27,6 @@ func NewPetHandler(petUsecase usecase.PetUsecase, scheduleUsecase usecase.Schedu
 func (handler *PetHandler) TopView() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		models, err := handler.petUsecase.TopView(c.Param("id"))
-		fmt.Println(err)
 
 		if err != nil {
 			return c.JSON(http.StatusBadRequest, err)

@@ -25,8 +25,18 @@ func (petRepo *PetRepository) TopView(petId string) (topInfo *model.TopInfo, err
 	pet := model.Pet{}
 	result := petRepo.SqlHandler.Conn.Find(&pet, petId)
 	if result.RecordNotFound() {
-		fmt.Print("error")
-		panic(err)
+		fmt.Println(result.Error)
+		// ここで設定すると、レスポンスが以下になってしまう
+		// Response Body: {} | TODO: Schedule POST時と同じJSON(!)で返したい
+		// (!) :
+		// {
+		// 	"Code": 400,
+		// 	"Message": "Key: 'Schedule.Location' Error:Field validation for 'Location' failed on the 'required' tag",
+		// 	"Internal": null
+		// }
+		err = result.Error
+
+		return
 	}
 
 	topInfo = &model.TopInfo{}
