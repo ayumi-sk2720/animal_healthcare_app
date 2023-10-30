@@ -45,6 +45,19 @@ flowchart TD
     c --> b
 ```
 
+# [go]mockを使用したテスト
+
+```mermaid
+flowchart TD
+    a[mockgen domain/***.go -destination integration/test/mock_repository_***.go]  --> b[touch integration/test/mock_usecase_***_test.go]
+    b --> c[テストコードを実装]
+    c --> d[cd integration]
+    d --> e[go test -v]
+```
+
+`テストコードを実施`については以下参照  
+https://qiita.com/ogady/items/34aae1b2af3080e0fec4#%E3%83%86%E3%82%B9%E3%83%88%E3%82%92%E6%9B%B8%E3%81%84%E3%81%A6%E3%81%BF%E3%82%8B
+
 # 各種コマンド
 Makefileを参照すること
 必要に応じて記入お願いします
