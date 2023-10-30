@@ -16,7 +16,6 @@ func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
 
 func InitRouting(e *echo.Echo, petHandler PetHandler) {
 	e.Use(middleware.Logger())
-	// TODO: ？？？　GolangでXMLHttpRequestLevel2+CORSのプリフライトが通るサーバーを立てる(BasicAuth付き) | https://qiita.com/romot/items/b49f7d9e28101daaa99e
 	e.Use(middleware.CORS()) // 以下を追加
 	e.Use(middleware.BodyDump(bodyDumpHandler))
 
