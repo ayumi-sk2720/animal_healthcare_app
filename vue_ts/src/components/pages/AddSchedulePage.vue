@@ -10,16 +10,17 @@ const clickEvent = () => {
 };
 
 defineProps<{}>();
-
 // TODO : Vue3を用いた「リアルタイムバリデーション」の実装方法 | https://blog.labol.co.jp/entry/real-time-validation-implementation-method
 // TODO : VueのComposition APIでフォームのバリデーション実装 | https://tech.mof-mof.co.jp/blog/validation-vue-composition-api/
-
-// TODO : [テキストボックス]vue3 + typescript環境でformをComponent化する | https://qiita.com/taka_1156/items/c65700208072b1f30337
-
-// TODO : セレクトボックス、テキストボックスなどをコンポーネント化（エラーメッセージも含めて）
-
 // TODO : api request
 // TODO : api処理の共通化
+/***
+ * |
+ * | [参考]
+ * |
+ * 汎用的なフォームコンポーネントを作成したい | https://qiita.com/taka_1156/items/c65700208072b1f30337
+ * 使用例 | https://qiita.com/taka_1156/items/c65700208072b1f30337#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95
+ */
 </script>
 <template>
   <div
