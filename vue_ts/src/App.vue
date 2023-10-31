@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-emerald-500">
+  <div class="bg-emerald-500 h-screen">
     <nav>
       <router-link to="/info">Info</router-link>
       <router-link to="/schedule">AddSchedule</router-link>
