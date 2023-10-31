@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
+import NormalLabel from "@/components/parts/NormalLabel.vue";
 
 defineProps<{
   date?: string;
@@ -10,15 +11,11 @@ defineProps<{
 <template>
   <div>
     <div class="flex justify-between">
-      <div class="w-6/12">
-        <p class="font-normal text-gray-700 dark:text-gray-400">
-          {{ date }}
-        </p>
+      <div class="w-6/12 p-3">
+        <NormalLabel :label="date" />
       </div>
-      <div class="w-6/12">
-        <p class="font-normal text-gray-700 dark:text-gray-400">
-          {{ description }}
-        </p>
+      <div class="w-6/12 p-3">
+        <NormalLabel :label="description" />
       </div>
     </div>
   </div>
