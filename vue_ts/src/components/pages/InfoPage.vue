@@ -6,6 +6,8 @@ import SchedulesTile from "@/components/parts/SchedulesTile.vue";
 import Schedule from "@/models/Schedule.ts";
 
 // const schedules = [new Schedule("トリミング", "2023.09.30"), new Schedule("通院","2023.10.01")];
+// TODO : api request
+// TODO : api処理の共通化
 </script>
 
 <template>
@@ -20,7 +22,11 @@ import Schedule from "@/models/Schedule.ts";
         <CardTile title="目標体重" description="5.8kg" size="max-w-lg" />
       </div>
     </div>
-    <CardTile title="気になるメモ" description="今月に入って飲む水の量が増えた気がする次に通院した時に先生に相談する" date="2020/10/30" />
+    <CardTile
+      title="気になるメモ"
+      description="今月に入って飲む水の量が増えた気がする次に通院した時に先生に相談する"
+      date="2020/10/30"
+    />
     <SchedulesTile />
   </div>
 </template>

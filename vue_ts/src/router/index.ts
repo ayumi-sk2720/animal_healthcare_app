@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import InfoPageView from "../components/pages/InfoPage.vue";
+import AddSchedulePageView from "../components/pages/AddSchedulePage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -21,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/info",
     name: "info",
     component: InfoPageView,
+  },
+  {
+    path: "/schedule",
+    name: "schedule",
+    component: AddSchedulePageView,
   },
 ];
 
