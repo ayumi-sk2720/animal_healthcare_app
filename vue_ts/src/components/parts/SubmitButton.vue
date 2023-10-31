@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <button
     type="submit"
-    class="w-4/5 p-3 bg-orange-500 text-white rounded"
+    class="w-4/5 p-3 text-lg font-bold bg-orange-500 text-white rounded-lg"
     :click="click_event"
   >
     {{ label }}
