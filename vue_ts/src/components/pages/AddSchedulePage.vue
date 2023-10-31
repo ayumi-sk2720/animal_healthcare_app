@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { defineProps } from "vue";
+import SubmitButton from "@/components/parts/SubmitButton.vue";
+
+const clickEvent = () => {
+  console.log("hello clickEvent");
+};
 
 defineProps<{}>();
 
@@ -48,13 +53,7 @@ defineProps<{}>();
         />
       </div>
       <div class="p-4 text-center">
-        <button
-          type="submit"
-          class="w-4/5 p-3 bg-orange-500 text-white rounded"
-          v-on:click="onClickPost"
-        >
-          作成する
-        </button>
+        <SubmitButton label="作成する" :click_event="clickEvent" />
       </div>
     </div>
   </div>
