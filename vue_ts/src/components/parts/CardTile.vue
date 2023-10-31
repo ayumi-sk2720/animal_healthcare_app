@@ -6,6 +6,7 @@ import TitleLabel from "@/components/parts/TitleLabel.vue";
 defineProps<{
   title?: string;
   description?: string;
+  date?: string;
   size?: string;
 }>();
 </script>
@@ -18,6 +19,8 @@ defineProps<{
     >
       <TitleLabel :label="title" />
       <NormalLabel :label="description" />
+      <TitleLabel label="最終更新日" v-if="date != null" />
+      <NormalLabel :label="date" v-if="date != null" />
     </div>
   </div>
 </template>
