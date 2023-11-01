@@ -11,3 +11,14 @@ type Schedule struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
+
+type Date struct {
+	From time.Time
+	To   time.Time
+}
+
+type Date2 struct {
+	Year  int
+	Month time.Month
+	Day   int
+}
