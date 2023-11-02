@@ -20,17 +20,19 @@ const formData = reactive({
 
 const rules = {
   title: { required },
+  date: { required },
+  location: { required },
 };
 
 const v$ = useVuelidate(rules, formData);
 
 const clickEvent = async () => {
+  console.log("submit", formData);
   v$.value.$validate();
   if (v$.value.$invalid) {
     console.log("バリデーションエラー発生");
   } else {
     console.log("バリデーションパス、リクエスト送信");
-    console.log("submit", formData);
   }
 };
 
@@ -53,9 +55,6 @@ defineProps<{}>();
         v-model:value="formData.title"
         :errors="v$.title.$errors"
       />
-      <div v-for="error of v$.title.$errors" :key="error.$uid">
-        <div class="text-red-700 font-bold">{{ error.$message }}</div>
-      </div>
       <HorizontalLine />
       <TitleLabel label="日時" />
       <BaseInput
@@ -63,7 +62,8 @@ defineProps<{}>();
         name="date"
         type="datetime-local"
         placeholder=""
-        value=""
+        v-model:value="formData.date"
+        :errors="v$.date.$errors"
       />
       <HorizontalLine />
       <TitleLabel label="場所" />
@@ -72,7 +72,8 @@ defineProps<{}>();
         name="location"
         type="text"
         placeholder="例）ぺテモ立川店"
-        value=""
+        v-model:value="formData.location"
+        :errors="v$.location.$errors"
       />
       <HorizontalLine />
       <div class="p-8 text-center">
