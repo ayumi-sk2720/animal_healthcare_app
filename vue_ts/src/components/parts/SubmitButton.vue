@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineComponent, defineProps } from "vue";
+import { defineProps } from "vue";
 
 defineProps<{
   label?: string;

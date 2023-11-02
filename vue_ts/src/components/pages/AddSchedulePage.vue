@@ -23,8 +23,14 @@ const rules = {
 
 const v$ = useVuelidate(rules, formData);
 
-const clickEvent = () => {
-  console.log("submit", formData);
+const clickEvent = async () => {
+  v$.value.$validate();
+  if (v$.value.$invalid) {
+    console.log("バリデーションエラー発生");
+  } else {
+    console.log("バリデーションパス、リクエスト送信");
+    console.log("submit", formData);
+  }
 };
 
 defineProps<{}>();
@@ -45,6 +51,9 @@ defineProps<{}>();
         placeholder="例）トリミング"
         value=""
       />
+      <div v-for="error of v$.title.$errors" :key="error.$uid">
+        <div class="text-red-700 font-bold">{{ error.$message }}</div>
+      </div>
       <HorizontalLine />
       <TitleLabel label="日時" />
       <BaseInput
