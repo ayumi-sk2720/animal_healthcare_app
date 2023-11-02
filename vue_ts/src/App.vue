@@ -20,6 +20,7 @@ import FloatingButton from "@/components/parts/FloatingButton.vue";
  * _/_/_/_/_/_/_/_/_/_/_/_/_/_/
  * 汎用的なフォームコンポーネントを作成したい | https://qiita.com/taka_1156/items/c65700208072b1f30337
  * 使用例 | https://qiita.com/taka_1156/items/c65700208072b1f30337#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95
+ * バリデーションが必要 | https://vuelidate-next.netlify.app/
  * |
  * |
  * _/_/_/_/_/_/_/_/_/_/_/_/_/_/

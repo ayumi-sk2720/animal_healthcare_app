@@ -1,16 +1,33 @@
 <script setup lang="ts">
-import { defineProps } from "vue";
+// 対応すべきTODOや、調査等については、「App.vue」参照
+import { defineProps, reactive } from "vue";
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+
 import SubmitButton from "@/components/parts/SubmitButton.vue";
 import TitleLabel from "@/components/parts/TitleLabel.vue";
 import BaseInput from "@/components/parts/BaseInput.vue";
 import HorizontalLine from "@/components/parts/HorizontalLine.vue";
 
+// Vue.js 3のComposition APIでVuelidate 2を利用するための基礎 | https://reffect.co.jp/vue/vulidate-2/
+// Vue3+Vuelidateでexternal validationsを試す | https://zenn.dev/kakkoyakakko/articles/ddac0fb3c4c642
+const formData = reactive({
+  title: "",
+  date: "",
+  location: "",
+});
+
+const rules = {
+  title: { required },
+};
+
+const v$ = useVuelidate(rules, formData);
+
 const clickEvent = () => {
-  console.log("hello clickEvent");
+  console.log("submit", formData);
 };
 
 defineProps<{}>();
-// 対応すべきTODOや、調査等については、「App.vue」参照
 </script>
 <template>
   <div
@@ -48,7 +65,7 @@ defineProps<{}>();
       />
       <HorizontalLine />
       <div class="p-8 text-center">
-        <SubmitButton label="作成する" :click_event="clickEvent" />
+        <SubmitButton label="作成する" @click="clickEvent" />
       </div>
     </div>
   </div>
