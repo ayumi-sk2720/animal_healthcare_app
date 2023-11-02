@@ -49,7 +49,7 @@ defineProps<{}>();
         name="title"
         type="text"
         placeholder="例）トリミング"
-        value=""
+        v-model:value="formData.title"
       />
       <div v-for="error of v$.title.$errors" :key="error.$uid">
         <div class="text-red-700 font-bold">{{ error.$message }}</div>
