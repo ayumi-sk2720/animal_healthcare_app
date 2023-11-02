@@ -8,6 +8,7 @@ import SubmitButton from "@/components/parts/SubmitButton.vue";
 import TitleLabel from "@/components/parts/TitleLabel.vue";
 import BaseInput from "@/components/parts/BaseInput.vue";
 import HorizontalLine from "@/components/parts/HorizontalLine.vue";
+import BaseErrors from "@/components/parts/BaseErrors.vue";
 
 // Vue.js 3のComposition APIでVuelidate 2を利用するための基礎 | https://reffect.co.jp/vue/vulidate-2/
 // Vue3+Vuelidateでexternal validationsを試す | https://zenn.dev/kakkoyakakko/articles/ddac0fb3c4c642
@@ -50,6 +51,7 @@ defineProps<{}>();
         type="text"
         placeholder="例）トリミング"
         v-model:value="formData.title"
+        :errors="v$.title.$errors"
       />
       <div v-for="error of v$.title.$errors" :key="error.$uid">
         <div class="text-red-700 font-bold">{{ error.$message }}</div>
