@@ -2,13 +2,13 @@
 // 対応すべきTODOや、調査等については、「App.vue」参照
 import { defineProps, reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
+// import { required } from "@vuelidate/validators";
+import { required } from "@/utils/i18n-validators.ts";
 
 import SubmitButton from "@/components/parts/SubmitButton.vue";
 import TitleLabel from "@/components/parts/TitleLabel.vue";
 import BaseInput from "@/components/parts/BaseInput.vue";
 import HorizontalLine from "@/components/parts/HorizontalLine.vue";
-import BaseErrors from "@/components/parts/BaseErrors.vue";
 
 // Vue.js 3のComposition APIでVuelidate 2を利用するための基礎 | https://reffect.co.jp/vue/vulidate-2/
 // Vue3+Vuelidateでexternal validationsを試す | https://zenn.dev/kakkoyakakko/articles/ddac0fb3c4c642
