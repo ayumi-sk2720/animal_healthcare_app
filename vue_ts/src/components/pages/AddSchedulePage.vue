@@ -1,12 +1,11 @@
 <script setup lang="ts">
 // 対応すべきTODOや、調査等については、「App.vue」参照
-import { defineProps, reactive } from "vue";
+import { reactive } from "vue";
 import { useVuelidate } from "@vuelidate/core";
 // import { required } from "@vuelidate/validators";
 import { required } from "@/utils/i18n-validators.ts";
 
 import SubmitButton from "@/components/parts/SubmitButton.vue";
-import TitleLabel from "@/components/parts/TitleLabel.vue";
 import BaseInput from "@/components/parts/BaseInput.vue";
 import HorizontalLine from "@/components/parts/HorizontalLine.vue";
 
@@ -35,8 +34,6 @@ const clickEvent = async () => {
     console.log("バリデーションパス、リクエスト送信");
   }
 };
-
-defineProps<{}>();
 </script>
 <template>
   <div
@@ -46,7 +43,6 @@ defineProps<{}>();
       <h1>予定を追加</h1>
     </div>
     <div class="p-4 bg-white rounded-lg grid shadow-xl">
-      <TitleLabel label="タイトル" />
       <BaseInput
         id="title"
         name="title"
@@ -54,9 +50,9 @@ defineProps<{}>();
         placeholder="例）トリミング"
         v-model:value="formData.title"
         :errors="v$.title.$errors"
+        label-title="タイトル"
       />
       <HorizontalLine />
-      <TitleLabel label="日時" />
       <BaseInput
         id="date"
         name="date"
@@ -64,9 +60,9 @@ defineProps<{}>();
         placeholder=""
         v-model:value="formData.date"
         :errors="v$.date.$errors"
+        label-title="日時"
       />
       <HorizontalLine />
-      <TitleLabel label="場所" />
       <BaseInput
         id="location"
         name="location"
@@ -74,6 +70,7 @@ defineProps<{}>();
         placeholder="例）ぺテモ立川店"
         v-model:value="formData.location"
         :errors="v$.location.$errors"
+        label-title="場所"
       />
       <HorizontalLine />
       <div class="p-8 text-center">
