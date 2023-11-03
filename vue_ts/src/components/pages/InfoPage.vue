@@ -8,6 +8,9 @@ import Schedule from "@/models/Schedule.ts";
 // const schedules = [new Schedule("トリミング", "2023.09.30"), new Schedule("通院","2023.10.01")];
 // TODO : api request
 // TODO : api処理の共通化
+// TODO: 【TypeScript】Axiosのリクエストとレスポンスに型をつける | https://zenn.dev/mkt_engr/articles/axios-req-res-typescript
+// TODO: Vue 3 + TypeScript ではじめるリポジトリパターン | https://qiita.com/blasg5884/items/394184cbf2f3ea760d4a
+
 </script>
 
 <template>
