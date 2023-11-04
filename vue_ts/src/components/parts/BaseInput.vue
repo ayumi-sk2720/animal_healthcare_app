@@ -78,7 +78,6 @@ export default defineComponent({
   </div>
 </template>
 
-
 <style scoped>
 input {
   width: 100%;

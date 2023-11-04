@@ -18,14 +18,14 @@ defineProps<{
     <div class="w-7/12">
       <div class="flex justify-between">
         <div class="w-6/12">
-          <CardTile title="名前" description="ちゃい" size="max-w-lg" />
+          <CardTile title="名前" :description="name" size="max-w-lg" />
         </div>
         <div class="w-6/12">
-          <CardTile title="年齢" description="5" size="max-w-lg" />
+          <CardTile title="年齢" :description="age" size="max-w-lg" />
         </div>
       </div>
-      <CardTile title="性別" description="オス" size="max-w-lg" />
-      <CardTile title="誕生日" description="2020/04/01" size="max-w-lg" />
+      <CardTile title="性別" :description="sex" size="max-w-lg" />
+      <CardTile title="誕生日" :description="birthday" size="max-w-lg" />
     </div>
   </div>
 </template>
