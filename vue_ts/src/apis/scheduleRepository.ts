@@ -6,6 +6,6 @@ const resource = "/pet";
 
 export default class ScheduleRepository {
   public create(id: number, payload: Schedule): AxiosPromise<Schedule> {
-    return repository.post(`${resource}/${id}}`, payload);
+    return repository.post(`${resource}/${id}}/schedule`, payload);
   }
 }
