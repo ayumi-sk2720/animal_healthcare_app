@@ -4,6 +4,7 @@ import { PetSummary } from "@/apis/petRepository";
 import CardTile from "@/components/parts/CardTile.vue";
 import ProfileTile from "@/components/parts/ProfileTile.vue";
 import SchedulesTile from "@/components/parts/SchedulesTile.vue";
+import SpinnerTile from "@/components/parts/Spinner.vue";
 import { defineComponent, reactive, ref } from "vue";
 
 // const schedules = [new Schedule("トリミング", "2023.09.30"), new Schedule("通院","2023.10.01")];
@@ -19,6 +20,7 @@ export default defineComponent({
     CardTile,
     ProfileTile,
     SchedulesTile,
+    SpinnerTile,
   },
   setup() {
     const state = reactive<PetSummary>({
@@ -37,13 +39,19 @@ export default defineComponent({
       schedules: [],
     });
 
+    const isLoading = ref(true);
+
     return {
       state,
+      isLoading,
     };
   },
   mounted() {
     const response = async () => {
+      // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない
       const { data } = await this.$repository.pet.getPetSummary(2);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      this.isLoading = false;
       const { pet, memo, schedules } = data;
 
       this.state.pet = pet;
@@ -55,34 +63,40 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div class="p-3">
-    <ProfileTile
-      :name="state.pet.name"
-      :age="state.pet.age"
-      :sex="state.pet.sex"
-      :birthday="state.pet.birthDay"
-    />
-    <div class="flex justify-between">
-      <div class="w-6/12">
-        <CardTile
-          title="体重"
-          :description="state.pet.nowWeight"
-          size="max-w-lg"
-        />
+  <div>
+    <SpinnerTile :is-loading="isLoading" />
+    <div
+      class="p-3 bg-emerald-500 h-screen"
+      :class="isLoading ? 'opacity-20' : ''"
+    >
+      <ProfileTile
+        :name="state.pet.name"
+        :age="state.pet.age"
+        :sex="state.pet.sex"
+        :birthday="state.pet.birthDay"
+      />
+      <div class="flex justify-between">
+        <div class="w-6/12">
+          <CardTile
+            title="体重"
+            :description="state.pet.nowWeight"
+            size="max-w-lg"
+          />
+        </div>
+        <div class="w-6/12">
+          <CardTile
+            title="目標体重"
+            :description="state.pet.targetWeight"
+            size="max-w-lg"
+          />
+        </div>
       </div>
-      <div class="w-6/12">
-        <CardTile
-          title="目標体重"
-          :description="state.pet.targetWeight"
-          size="max-w-lg"
-        />
-      </div>
+      <CardTile
+        title="気になるメモ"
+        :description="state.memo.title"
+        :date="state.memo.date"
+      />
+      <SchedulesTile :schedules="state.schedules" />
     </div>
-    <CardTile
-      title="気になるメモ"
-      :description="state.memo.title"
-      :date="state.memo.date"
-    />
-    <SchedulesTile :schedules="state.schedules" />
   </div>
 </template>

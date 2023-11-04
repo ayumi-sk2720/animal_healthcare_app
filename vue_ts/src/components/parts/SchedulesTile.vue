@@ -1,8 +1,7 @@
 <script lang="ts">
-import { defineComponent, defineProps } from "vue";
+import { defineComponent } from "vue";
 import ScheduleItem from "@/components/parts/ScheduleItem.vue";
 import TitleLabel from "@/components/parts/TitleLabel.vue";
-import { Schedule } from "@/apis/petRepository";
 
 export default defineComponent({
   name: "SchedulesTile",
