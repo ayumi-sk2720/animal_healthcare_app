@@ -8,8 +8,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // TODO: エラー発生時の共通処理を差し込みたい
-    return error;
+    return error.response.data;
   }
 );
 

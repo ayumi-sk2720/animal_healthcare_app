@@ -11,6 +11,7 @@ import HorizontalLine from "@/components/parts/HorizontalLine.vue";
 import SpinnerTile from "@/components/parts/Spinner.vue";
 import { Schedule } from "@/apis/petRepository";
 import ScheduleRepository from "@/apis/scheduleRepository";
+import ErrorNotifier from "../parts/ErrorNotifier.vue";
 
 // Vue.js 3のComposition APIでVuelidate 2を利用するための基礎 | https://reffect.co.jp/vue/vulidate-2/
 // Vue3+Vuelidateでexternal validationsを試す | https://zenn.dev/kakkoyakakko/articles/ddac0fb3c4c642
@@ -22,6 +23,7 @@ export default defineComponent({
     BaseInput,
     HorizontalLine,
     SpinnerTile,
+    ErrorNotifier,
   },
   setup() {
     const formData = reactive({
@@ -30,6 +32,7 @@ export default defineComponent({
       location: "",
     });
     let isLoading = ref(false);
+    let isError = ref(false);
     const rules = {
       title: { required },
       date: { required },
@@ -39,6 +42,7 @@ export default defineComponent({
     const scheduleRepository = new ScheduleRepository();
 
     const clickEvent = async () => {
+      isError.value = false;
       console.log("submit", formData);
       v$.value.$validate();
       if (!v$.value.$invalid) {
@@ -50,15 +54,19 @@ export default defineComponent({
           date: formData.date,
           location: formData.location,
         };
-        // TODO: InfoPage.vueの`this.$repository`だと、undefinedになってしまう
+        // TODO: InfoPage.vueのように`this.$repository`で記述すると、undefinedになってしまう
         const { data } = await scheduleRepository.create(1, schedule);
         await new Promise((resolve) => setTimeout(resolve, 1000));
         isLoading.value = false;
+        if (data === undefined) {
+          isError.value = true;
+        }
       }
     };
     return {
       formData,
       isLoading,
+      isError,
       rules,
       v$,
       clickEvent,
@@ -77,6 +85,7 @@ export default defineComponent({
         <div class="text-2xl font-bold">
           <h1>予定を追加</h1>
         </div>
+        <ErrorNotifier :visibility="isError" />
         <BaseInput
           id="title"
           name="title"
