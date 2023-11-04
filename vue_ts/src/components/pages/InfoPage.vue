@@ -17,9 +17,7 @@ export default defineComponent({
   name: "InfoPage",
   mounted() {
     const response = async () => {
-      const showGetPetSummary = await this.$repository.pet.getPetSummary(1);
       const { data } = await this.$repository.pet.getPetSummary(1);
-      console.log("showGetPetSummary", showGetPetSummary);
       console.log("data", data);
     };
     response();
