@@ -38,6 +38,8 @@ export default defineComponent({
         fill="currentFill"
       />
     </svg>
-    <span class="sr-only">Loading...</span>
+    <p class="flex justify-center text-2xl font-bold text-gray-600">
+      Loading...
+    </p>
   </div>
 </template>
