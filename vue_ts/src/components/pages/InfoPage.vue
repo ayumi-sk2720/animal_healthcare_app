@@ -48,7 +48,7 @@ export default defineComponent({
   },
   mounted() {
     const response = async () => {
-      // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない
+      // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない | おそらくこの処理をうまくレイヤー化できれば、HTTPリクエスト・レスポンスのテスト化が可能？
       const { data } = await this.$repository.pet.getPetSummary(2);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       this.isLoading = false;
