@@ -3,7 +3,6 @@
 import CardTile from "@/components/parts/CardTile.vue";
 import ProfileTile from "@/components/parts/ProfileTile.vue";
 import SchedulesTile from "@/components/parts/SchedulesTile.vue";
-import Schedule from "@/models/Schedule.ts";
 import { defineComponent } from "vue";
 
 // const schedules = [new Schedule("トリミング", "2023.09.30"), new Schedule("通院","2023.10.01")];
@@ -17,7 +16,7 @@ export default defineComponent({
   name: "InfoPage",
   mounted() {
     const response = async () => {
-      const { data } = await this.$repository.pet.getPetSummary(1);
+      const { data } = await this.$repository.pet.getPetSummary(99);
       console.log("data", data);
     };
     response();
