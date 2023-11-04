@@ -4,7 +4,7 @@ import { Pet, PetSummary } from "@/apis/petRepository";
 import CardTile from "@/components/parts/CardTile.vue";
 import ProfileTile from "@/components/parts/ProfileTile.vue";
 import SchedulesTile from "@/components/parts/SchedulesTile.vue";
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 
 // const schedules = [new Schedule("トリミング", "2023.09.30"), new Schedule("通院","2023.10.01")];
 // TODO : api request
@@ -45,14 +45,8 @@ export default defineComponent({
     const response = async () => {
       const { data } = await this.$repository.pet.getPetSummary(2);
       const { pet, memo, schedules } = data;
-      console.log(data);
 
-      this.state.pet.name = pet.name;
-      this.state.pet.age = pet.age;
-      this.state.pet.sex = pet.sex;
-      this.state.pet.birthDay = pet.birthDay;
-      this.state.pet.nowWeight = pet.now_weight;
-      this.state.pet.targetWeight = pet.target_weight;
+      this.state.pet = pet;
       this.state.memo = memo;
       this.state.schedules = schedules;
     };
@@ -62,7 +56,6 @@ export default defineComponent({
 </script>
 <template>
   <div>
-    <!-- <TopSection msg="Custom Message!!!" /> -->
     <ProfileTile
       :name="state.pet.name"
       :age="state.pet.age"
