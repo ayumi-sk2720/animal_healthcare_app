@@ -9,6 +9,7 @@ import SubmitButton from "@/components/parts/SubmitButton.vue";
 import BaseInput from "@/components/parts/BaseInput.vue";
 import HorizontalLine from "@/components/parts/HorizontalLine.vue";
 import SpinnerTile from "@/components/parts/Spinner.vue";
+import { Schedule } from "@/apis/petRepository";
 
 // Vue.js 3のComposition APIでVuelidate 2を利用するための基礎 | https://reffect.co.jp/vue/vulidate-2/
 // Vue3+Vuelidateでexternal validationsを試す | https://zenn.dev/kakkoyakakko/articles/ddac0fb3c4c642
@@ -36,6 +37,12 @@ const clickEvent = async () => {
     console.log("バリデーションパス、リクエスト送信");
     // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない | おそらくこの処理をうまくレイヤー化できれば、HTTPリクエスト・レスポンスのテスト化が可能？
     isLoading.value = true;
+    const schedule: Schedule = {
+      title: formData.title,
+      date: formData.date,
+      location: formData.location,
+    };
+    const { data } = await this.$repository.schedule.create(1, schedule);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     isLoading.value = false;
   }
