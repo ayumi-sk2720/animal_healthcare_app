@@ -1,6 +1,6 @@
 <!-- Vite + Vue 3 + TypeScript + Tailwind CSS の簡易環境構築 | https://zenn.dev/showy1/articles/c5d1b5d33552be -->
 <script lang="ts">
-import { Pet, PetSummary } from "@/apis/petRepository";
+import { PetSummary } from "@/apis/petRepository";
 import CardTile from "@/components/parts/CardTile.vue";
 import ProfileTile from "@/components/parts/ProfileTile.vue";
 import SchedulesTile from "@/components/parts/SchedulesTile.vue";
@@ -55,7 +55,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div>
+  <div class="p-3">
     <ProfileTile
       :name="state.pet.name"
       :age="state.pet.age"

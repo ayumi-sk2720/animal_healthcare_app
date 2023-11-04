@@ -19,8 +19,10 @@ defineProps<{
     >
       <TitleLabel :label="title" />
       <NormalLabel :label="description" />
-      <TitleLabel label="最終更新日" v-if="date != null" />
-      <NormalLabel :label="date" v-if="date != null" />
+      <div class="flex justify-end">
+        <TitleLabel label="最終更新日" v-if="date != null" />
+        <NormalLabel :label="date" v-if="date != null" />
+      </div>
     </div>
   </div>
 </template>

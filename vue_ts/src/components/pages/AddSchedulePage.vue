@@ -36,13 +36,11 @@ const clickEvent = async () => {
 };
 </script>
 <template>
-  <div
-    class="create-schedule mx-auto block items-center justify-around p-8 lg:px-8 lg:rounded-lg text-gray-700"
-  >
-    <div class="p-4 pt-0 lg:px-6 font-bold">
-      <h1>予定を追加</h1>
-    </div>
+  <div class="p-8">
     <div class="p-4 bg-white rounded-lg grid shadow-xl">
+      <div class="text-2xl font-bold">
+        <h1>予定を追加</h1>
+      </div>
       <BaseInput
         id="title"
         name="title"
