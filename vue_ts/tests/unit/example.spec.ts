@@ -45,8 +45,11 @@ describe("sample test", () => {
  * APIをテストするサンプル
  * [参考] https://vhudyma-blog.eu/3-ways-to-mock-axios-in-jest/
  * |
- * あまり意味ないテスト？（APIのテストで実装されるべき）
+ * あまり意味ないテスト？（APIのテストで実装されるべきもの？）
  * APIリクエストして、Componentsの状態が期待値となる、ことをテストすることが多い？
+ * ｜
+ * 例えば、以下の記事のようなケース
+ * https://reffect.co.jp/vue/vue-mock-axios/#mock-%E3%81%AE-axios-%E3%81%AE%E3%83%86%E3%82%B9%E3%83%88%E6%96%B9%E6%B3%95
  */
 describe("getPetSummary", () => {
   it("API成功テストケース", async () => {
