@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     // "allowImportingTsExtensions": true, 
     // | TODO: これが記載されていると、"npm run test/unit"でエラーになる
     // | log

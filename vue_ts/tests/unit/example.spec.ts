@@ -1,9 +1,22 @@
 import { shallowMount } from "@vue/test-utils";
-import HelloWorld from "@/components/HelloWorld.vue";
+import HelloWorld from "../../src/components/HelloWorld.vue";
 import axios from "axios";
-import PetRepository from "@/apis/petRepository";
+import PetRepository from "../../src/apis/petRepository";
 
-jest.mock("axios");
+// [参考]
+// MOCKING AXIOS WITH JEST THROWS ERROR CANNOT READ PROPERTY &#39;INTERCEPTORS OF UNDEFINED
+// https://www.appsloveworld.com/jestjs/2/mocking-axios-with-jest-throws-error-cannot-read-property-39interceptors39
+jest.mock("axios", () => {
+  return {
+    create: jest.fn(() => ({
+      get: jest.fn(),
+      interceptors: {
+        request: { use: jest.fn(), eject: jest.fn() },
+        response: { use: jest.fn(), eject: jest.fn() },
+      },
+    })),
+  };
+});
 
 const BASE_URL = "http://localhost:8080/";
 /***
@@ -31,6 +44,9 @@ describe("sample test", () => {
 /***
  * APIをテストするサンプル
  * [参考] https://vhudyma-blog.eu/3-ways-to-mock-axios-in-jest/
+ * |
+ * あまり意味ないテスト？（APIのテストで実装されるべき）
+ * APIリクエストして、Componentsの状態が期待値となる、ことをテストすることが多い？
  */
 describe("getPetSummary", () => {
   it("API成功テストケース", async () => {
@@ -56,7 +72,7 @@ describe("getPetSummary", () => {
           id: "",
           title: "fugafuga",
           date: "2023-11-04T08:56:09.273600882+09:00",
-        }
+        },
       },
       physical_condition: {
         food: 3,
@@ -65,7 +81,8 @@ describe("getPetSummary", () => {
       },
       memo: {
         id: "",
-        title: "今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する",
+        title:
+          "今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する",
         date: "2023-11-04T08:56:09.273600924+09:00",
       },
       schedules: [
@@ -86,15 +103,15 @@ describe("getPetSummary", () => {
           location: "ホゲホゲ病院",
           created_at: "0001-01-01T00:00:00Z",
           updated_at: "0001-01-01T00:00:00Z",
-        }
-      ]
+        },
+      ],
     };
-    (axios.get as any).mockResolvedValueOnce(petSummary);
+    // (axios.get as any).mockResolvedValueOnce(petSummary);
     // when
     const petRepository = new PetRepository();
     const result = petRepository.getPetSummary(1);
 
-    expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}/pet/1`);
-    expect(result).toEqual(petSummary);
+    // expect(axios.get).toHaveBeenCalledWith(`${BASE_URL}/pet/1`);
+    expect(result).toEqual(petSummary); // resultが`undefined`になるので成功しない
   });
 });
