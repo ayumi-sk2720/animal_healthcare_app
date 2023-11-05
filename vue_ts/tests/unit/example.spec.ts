@@ -13,3 +13,9 @@ describe("HelloWorld.vue", () => {
     expect(wrapper.text()).toMatch(msg);
   });
 });
+
+describe("sample test", () => {
+  test("two plus two is four", () => {
+    expect(1 + 2).toBe(4);
+  });
+});
