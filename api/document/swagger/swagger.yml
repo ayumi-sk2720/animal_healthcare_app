@@ -1,0 +1,428 @@
+openapi: 3.0.3
+info:
+  title: animal_healthcare_app_api
+  version: 1.0.0
+tags:
+  - name: pet
+    description: ペット情報
+paths:
+# https://patorjk.com/software/taag/#p=display&f=ANSI%20Shadow&t=Type%20Something%20
+# ==========================================
+#
+# ██████╗ ███████╗████████╗
+# ██╔══██╗██╔════╝╚══██╔══╝
+# ██████╔╝█████╗     ██║   
+# ██╔═══╝ ██╔══╝     ██║   
+# ██║     ███████╗   ██║   
+# ╚═╝     ╚══════╝   ╚═╝   
+#
+# ==========================================
+  /pet/{pet_id}:
+    get:
+      tags:
+        - pet
+      summary: ペット管理システムのTOP画面用
+      description: | 
+        ## ペットちゃん管理システムのTOP画面用のデータを返却します
+        ### ■ データ取得元
+        - ペット基本情報テーブル
+        - 体重推移テーブル
+        - 投薬予定（今日分（なし、なら、なし）と、直近の予定）テーブル
+        - 体調テーブル（食事、汗、うんち // TODO: これってどこで登録する？
+        - 気になるメモテーブル
+        - 予定テーブル（直近２件）
+      parameters:
+        - in: path
+          name: pet_id
+          required: true
+          schema: 
+            type: integer
+      responses:
+        200:
+            $ref: '#/components/responses/GetPetInfo'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /pet/{pet_id}/schedule:
+    post:
+      tags:
+        - pet
+      summary: 予定登録
+      parameters:
+        - in: path
+          name: pet_id
+          required: true
+          schema: 
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  nullable: true
+                date:
+                  type: string
+                  nullable: true
+                location:
+                  type: string
+                  nullable: true
+      description: |
+        ## トリミング、通院などの予定を日時、場所とともに登録します
+      responses:
+        200:
+            $ref: '#/components/responses/PostSchedule'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+# ====================================================================================
+# 
+#  ██████╗ ██████╗ ███╗   ███╗██████╗  ██████╗ ███╗   ██╗███████╗███╗   ██╗████████╗███████╗
+# ██╔════╝██╔═══██╗████╗ ████║██╔══██╗██╔═══██╗████╗  ██║██╔════╝████╗  ██║╚══██╔══╝██╔════╝
+# ██║     ██║   ██║██╔████╔██║██████╔╝██║   ██║██╔██╗ ██║█████╗  ██╔██╗ ██║   ██║   ███████╗
+# ██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║   ██║██║╚██╗██║██╔══╝  ██║╚██╗██║   ██║   ╚════██║
+# ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ╚██████╔╝██║ ╚████║███████╗██║ ╚████║   ██║   ███████║
+# ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝
+# 
+# ====================================================================================
+components:
+  schemas:
+    PetInfo:
+      type: object
+      properties:
+        baseInfo:
+          type: object
+          properties:
+            name:
+              type: string
+            ege:
+              type: string
+            sex:
+              type: string
+            now_weight:
+              type: string
+            target_weight:
+              type: string
+            birthday:
+              type: string
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+              nullable: true
+        physical_condition:
+          type: object
+          properties:
+            food: 
+              type: integer
+              example: "3::◎/2::○/1::△"
+            sweat: 
+              type: integer
+            toilet: 
+              type: integer
+        memo:
+          type: object
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            date:
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+        schedules: # イベントスケジュール
+          type: array
+          properties:
+            id:
+              type: integer
+            title:
+              type: string
+            date:
+              type: string
+              format: date
+              example: "yyyy年M月D日 HH:MM"
+            location:
+              type: string
+        dosage_schedules: # 投薬スケジュール
+          type: object
+          properties:
+            today:
+              type: object
+              properties:
+                id:
+                  type: integer
+                title: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
+            next:
+              type: object
+              properties:
+                id:
+                  type: integer
+                title: 
+                  type: string
+                date:
+                  format: date
+                  example: "yyyy年M月D日 HH:MM"
+      required:
+      - baseInfo
+      - name
+      - address
+      - birthday
+      - age
+      - sex
+      - memberType
+    UserBase:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        address:
+          type: string
+        birthday:
+          type: string
+          format: date
+          example: "1909-01-01"
+          nullable: true
+        age:
+          type: integer
+          nullable: true
+        sex:
+          type: string
+          enum:
+            - MALE
+            - FEMALE
+        memberType:
+          $ref: '#/components/schemas/MemberType'
+      required:
+        - id
+        - name
+        - address
+        - birthday
+        - age
+        - sex
+        - memberType
+    User:
+      allOf:
+        - $ref: '#/components/schemas/UserBase'
+        - type: object
+          properties:
+            phoneNumber:
+              type: string
+              example: '09012345678'
+            email:
+              type: string
+              example: 'sample@example.com'
+              nullable: true
+          required:
+            - phoneNumber
+            - email
+    MemberType:
+      type: string
+      nullable: true
+      enum:
+        - GENERAL
+        - SPECIAL
+        - CHILD
+        - SENIOR
+    Trigger:
+      type: string
+      enum:
+        - HP
+        - INTRODUCTION
+        - TVCM
+        - HOTPEPPER
+        - FLYER
+        - NONE
+    GeneralError:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int
+        message:
+          type: string
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      description: ユーザーID
+      required: true
+      schema:
+        type: string
+        example: 248c8027-b752-db4c-76c1-fb22a05e9591
+        nullable: false
+#====================================================================================
+#
+# ███████╗██╗  ██╗ █████╗ ███╗   ███╗██████╗ ██╗     ███████╗
+# ██╔════╝╚██╗██╔╝██╔══██╗████╗ ████║██╔══██╗██║     ██╔════╝
+# █████╗   ╚███╔╝ ███████║██╔████╔██║██████╔╝██║     █████╗  
+# ██╔══╝   ██╔██╗ ██╔══██║██║╚██╔╝██║██╔═══╝ ██║     ██╔══╝  
+# ███████╗██╔╝ ██╗██║  ██║██║ ╚═╝ ██║██║     ███████╗███████╗
+# ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝╚══════╝
+#
+# ====================================================================================
+  examples:
+    # pet
+    GetPetInfo:
+      value:
+        baseInfo: 
+          name: チャイ
+          age: 3歳8ヶ月
+          sex: メス
+          now_weight: 4.8kg
+          target_weight: 5.2kg
+          # 誕生日は年月日のみの表記のため修正
+          birthday: 2020年1月27日
+          # birthday: 2020年1月27日 10:00
+          # 目標体重にdateは不要なので削除
+          # date: 2023年9月13日 10:00
+        dosage_schedules:
+          today:
+            id: 1
+            title: "" # 予定がない場合は空白 
+            date: 2023年9月1日 10:00
+          next: 
+            id: 2
+            title: ネクスがーど
+            date: 2023年9月15日 10:00
+        physical_condition:
+          food: 3
+          sweat: 2
+          toilet: 1 
+        memo: 
+            id: 1
+            title: 今月に入って飲む水の量が\n増えた気がする\n次に通院した時に先生に相談する
+            date: 2023年9月15日 10:00
+        schedules:
+          - id: 1
+            date: 2023年9月20日 10:00
+            title: トリミング
+            location: ペテモ立川点
+          - id: 2
+            date: 2023年9月30日 14:00
+            title: 通院
+            location: ホゲホゲ病院
+    # schedule
+    PostSchedule:
+      value:
+        date: 2023年9月15日 10:00
+        title: 通院
+        location: ペテモ立川点
+    GetUsersCommon:
+      value:
+      - id: 248c8027-b752-db4c-76c1-fb22a05e9591
+        name: 田中太郎
+        address: 東京都中央区新富1-16-4
+        birthday: "1990-01-01"
+        age: 33
+        sex: MALE
+        memberType: GENERAL
+      - id: a980e372-1eb2-0e1a-f23b-9208e226e954
+        name: 山田花子
+        address: 埼玉県さいたま市大宮区桜木町1-7-5
+        birthday: "1988-10-15"
+        age: 34
+        sex: FEMALE
+        memberType: SENIOR
+      - id: a9bbaab7-f596-712f-b4cf-c72a4323dff2
+        name: 山本次郎
+        address: 神奈川県横浜市中区横浜公園
+        birthday: null
+        age: null
+        sex: MALE
+        memberType: null
+    GetUserCommon:
+      value:
+        id: 248c8027-b752-db4c-76c1-fb22a05e9591
+        name: 田中太郎
+        address: 東京都中央区新富1-16-4
+        birthday: "1990-01-01"
+        age: 33
+        sex: MALE
+        phoneNumber: "09012345678"
+        email: taro@example.com
+    GetUserIncludeNullFields:
+      value:
+        id: a9bbaab7-f596-712f-b4cf-c72a4323dff2
+        name: 山本次郎
+        address: 神奈川県横浜市中区横浜公園
+        birthday: null
+        age: null
+        sex: MALE
+        phoneNumber: null
+        email: taro@example.com
+# ====================================================================================
+#
+# ██████╗ ███████╗███████╗██████╗  ██████╗ ███╗   ██╗███████╗███████╗
+# ██╔══██╗██╔════╝██╔════╝██╔══██╗██╔═══██╗████╗  ██║██╔════╝██╔════╝
+# ██████╔╝█████╗  ███████╗██████╔╝██║   ██║██╔██╗ ██║███████╗█████╗  
+# ██╔══██╗██╔══╝  ╚════██║██╔═══╝ ██║   ██║██║╚██╗██║╚════██║██╔══╝  
+# ██║  ██║███████╗███████║██║     ╚██████╔╝██║ ╚████║███████║███████╗
+# ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚══════╝
+#
+# ====================================================================================                                                                   
+  responses:
+    GetPetInfo:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/PetInfo'
+          examples:
+            GetUsersCommon:
+              $ref: '#/components/examples/GetPetInfo'
+    PostSchedule:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/PetInfo'
+          examples:
+            GetUsersCommon:
+              $ref: '#/components/examples/PostSchedule'
+                
+    GetUsers:
+      description: successful operation
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/UserBase'
+          examples:
+            GetUsersCommon:
+              $ref: '#/components/examples/GetUsersCommon'
+    GetUser:
+      description: Successful operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+          examples:
+            GetUserCommon:
+              $ref: '#/components/examples/GetUserCommon'
+            GetUserIncludeNullFields:
+              $ref: '#/components/examples/GetUserIncludeNullFields'
+    NotFound:
+      description: Not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'
+    IllegalInput:
+      description: Illegal input for operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'

@@ -1,10 +1,48 @@
 version: '3.8'
 services:
-  vue:
-    build: ./vue
-    container_name: vue-container
+  vue_ts:
+    build: ./vue_ts
+    container_name: vue-ts-container
     ports:
-      - '3000:8080'
+      - '3001:8080'
     volumes:
-      - ./:/vue
+      - ./vue_ts:/vue_ts
     tty: true
+  api:
+    build: ./api
+    container_name: go-api-container
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./api:/go/src/app
+    environment:
+     - MYSQL_USER=root
+     - MYSQL_PASSWORD=hogehoge
+     - MYSQL_HOST=db
+     - MYSQL_PORT=3306
+     - MYSQL_DATABASE=dev
+    tty: true
+  db:
+    image: mysql:5.7 # M1チップのプラットフォームはarm64であるのに対し、mysql5.7*のイメージのサポートプラットフォームがAMD64で不一致
+    platform: linux/amd64
+    restart: always
+    volumes:
+      - ./db/mysql/my.cnf:/etc/mysql/conf.d/my.cnf # mysqlの設定
+      - ./db/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: hogehoge # 初期で設定されるパスワード
+      MYSQL_DATABASE: dev # docker-compose構築時に作成されるデータベース
+    ports:
+      - "3400:3306" # ローカルのMySQLのportと被らないように設定する
+    tty: true
+  #
+  # Mockサーバーとして使用
+  # Prism Overview | https://docs.stoplight.io/docs/prism/674b27b261c3c-prism-overview
+  # 
+  prism:
+    image: stoplight/prism:4
+    command: 'mock -h 0.0.0.0 /tmp/swagger.yml'
+    volumes:
+      - ./api/document/swagger/swagger.yml:/tmp/swagger.yml:ro
+    ports:
+      - '4010:4010'
