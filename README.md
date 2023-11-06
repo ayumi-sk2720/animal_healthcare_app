@@ -25,14 +25,20 @@ $ yarn run serve
 
 ### TOP画面
 ```
-$ curl 'http://127.0.0.1:4010/pet/info'
+$ curl 'http://127.0.0.1:8080/pet/1'
 ```
 ### 予定登録
 ```
-$ curl -X POST 'http://127.0.0.1:4010/pet/schedule'
+$ curl -X POST 'http://127.0.0.1:8080/pet/1/schedule'
 ```
 
-# sqlmigrate
+# (Front)test
+
+```sh
+$ npm run test:unit
+```
+
+# (API)sqlmigrate
 コマンド集：　[Go製マイグレーションツールsql-migrate](https://qiita.com/k-kurikuri/items/946e2bf8c79176ef3ff0#%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E8%89%B2%E3%80%85)
 
 作成したいテーブル、あるいは、ALTERしたいタスクが生じた場合、
@@ -45,7 +51,7 @@ flowchart TD
     c --> b
 ```
 
-# [go]mockを使用したテスト
+# (API)[go]mockを使用したテスト
 
 ```mermaid
 flowchart TD
