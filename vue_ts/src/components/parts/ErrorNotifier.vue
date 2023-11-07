@@ -1,20 +1,9 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { defineProps } from "vue";
 
-export default defineComponent({
-  name: "ErrorNotifier",
-  props: {
-    visibility: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  setup(props) {
-    return {
-      props,
-    };
-  },
-});
+defineProps<{
+  visibility: boolean;
+}>();
 </script>
 <template>
   <div
