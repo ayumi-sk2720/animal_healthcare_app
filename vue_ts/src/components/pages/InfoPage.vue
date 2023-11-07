@@ -1,11 +1,12 @@
 <!-- Vite + Vue 3 + TypeScript + Tailwind CSS の簡易環境構築 | https://zenn.dev/showy1/articles/c5d1b5d33552be -->
 <script setup lang="ts">
 import { PetSummary } from "@/apis/petRepository";
+import repositoryFactory, { Repositories } from "@/apis/repositoryFactory";
 import CardTile from "@/components/parts/CardTile.vue";
 import ProfileTile from "@/components/parts/ProfileTile.vue";
 import SchedulesTile from "@/components/parts/SchedulesTile.vue";
 import SpinnerTile from "@/components/parts/Spinner.vue";
-import { onMounted, ref } from "vue";
+import { inject, onMounted, ref } from "vue";
 
 // const schedules = [new Schedule("トリミング", "2023.09.30"), new Schedule("通院","2023.10.01")];
 // TODO : api request
@@ -34,7 +35,11 @@ const isLoading = ref(true);
 onMounted(() => {
   const response = async () => {
     // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない | おそらくこの処理をうまくレイヤー化できれば、HTTPリクエスト・レスポンスのテスト化が可能？
-    const { data } = await this.$repository.pet.getPetSummary(2);
+    const { data } = await this.$repository.pet.getPetSummary(2); // リクエストできなくなっちゃった、、、
+    // const repository = inject<Repositories>("repository");
+    // console.log(repository);
+    // const { data } = repository.pet.getPetSummary(2);
+    // console.log(data); // undefinedになってしまう
     await new Promise((resolve) => setTimeout(resolve, 1000));
     isLoading.value = false;
     const { pet, memo, schedules } = data;

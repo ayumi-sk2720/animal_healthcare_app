@@ -10,7 +10,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
-    // "allowImportingTsExtensions": true, 
+    "allowImportingTsExtensions": true, 
     // | TODO: これが記載されていると、"npm run test/unit"でエラーになる
     // | log
     // root@6b0e1e988d85:/vue_ts# npm run test:unit
