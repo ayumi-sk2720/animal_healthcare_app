@@ -6,7 +6,7 @@ import CardTile from "@/components/parts/CardTile.vue";
 import ProfileTile from "@/components/parts/ProfileTile.vue";
 import SchedulesTile from "@/components/parts/SchedulesTile.vue";
 import SpinnerTile from "@/components/parts/Spinner.vue";
-import { key } from "@/main";
+import { key } from "@/provider";
 import { inject, onMounted, ref } from "vue";
 
 // injectで撮るからには、provideで登録する必要がある
@@ -50,7 +50,7 @@ onMounted(() => {
     if (!repository) {
       return;
     }
-    const { data } = repository.pet.getPetSummary(2);
+    const { data } = await repository.pet.getPetSummary(2);
     console.log(data); // undefinedになってしまう
     await new Promise((resolve) => setTimeout(resolve, 1000));
     isLoading.value = false;
