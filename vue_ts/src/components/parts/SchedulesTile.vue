@@ -1,26 +1,11 @@
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { defineProps } from "vue";
 import ScheduleItem from "@/components/parts/ScheduleItem.vue";
 import TitleLabel from "@/components/parts/TitleLabel.vue";
 
-export default defineComponent({
-  name: "SchedulesTile",
-  components: {
-    ScheduleItem,
-    TitleLabel,
-  },
-  props: {
-    schedules: {
-      type: Object,
-      required: true,
-    },
-  },
-  setup(props) {
-    return {
-      props,
-    };
-  },
-});
+defineProps<{
+  schedules: object;
+}>();
 </script>
 
 <template>

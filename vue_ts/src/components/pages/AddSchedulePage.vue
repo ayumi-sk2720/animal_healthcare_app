@@ -1,78 +1,56 @@
-<script lang="ts">
-// 対応すべきTODOや、調査等については、「App.vue」参照
-import { defineComponent, reactive, ref } from "vue";
+<script setup lang="ts">
+import { inject, reactive, ref } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-// import { required } from "@vuelidate/validators";
 import { required } from "@/utils/i18n-validators.ts";
+import { key } from "@/provider";
 
 import SubmitButton from "@/components/parts/SubmitButton.vue";
 import BaseInput from "@/components/parts/BaseInput.vue";
 import HorizontalLine from "@/components/parts/HorizontalLine.vue";
 import SpinnerTile from "@/components/parts/Spinner.vue";
 import { Schedule } from "@/apis/petRepository";
-import ScheduleRepository from "@/apis/scheduleRepository";
 import ErrorNotifier from "../parts/ErrorNotifier.vue";
 
-// Vue.js 3のComposition APIでVuelidate 2を利用するための基礎 | https://reffect.co.jp/vue/vulidate-2/
+const repository = inject(key);
 // Vue3+Vuelidateでexternal validationsを試す | https://zenn.dev/kakkoyakakko/articles/ddac0fb3c4c642
-
-export default defineComponent({
-  name: "AddSchedule",
-  components: {
-    SubmitButton,
-    BaseInput,
-    HorizontalLine,
-    SpinnerTile,
-    ErrorNotifier,
-  },
-  setup() {
-    const formData = reactive({
-      title: "",
-      date: "",
-      location: "",
-    });
-    let isLoading = ref(false);
-    let isError = ref(false);
-    const rules = {
-      title: { required },
-      date: { required },
-      location: { required },
-    };
-    const v$ = useVuelidate(rules, formData);
-    const scheduleRepository = new ScheduleRepository();
-
-    const clickEvent = async () => {
-      isError.value = false;
-      console.log("submit", formData);
-      v$.value.$validate();
-      if (!v$.value.$invalid) {
-        console.log("バリデーションパス、リクエスト送信");
-        // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない | おそらくこの処理をうまくレイヤー化できれば、HTTPリクエスト・レスポンスのテスト化が可能？
-        isLoading.value = true;
-        const schedule: Schedule = {
-          title: formData.title,
-          date: formData.date,
-          location: formData.location,
-        };
-        // TODO: InfoPage.vueのように`this.$repository`で記述すると、undefinedになってしまう
-        const { data } = await scheduleRepository.create(1, schedule);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        isLoading.value = false;
-        if (data === undefined) {
-          isError.value = true;
-        }
-      }
-    };
-    return {
-      formData,
-      isLoading,
-      isError,
-      rules,
-      v$,
-      clickEvent,
-    };
-  },
+const formData = reactive({
+  title: "",
+  date: "",
+  location: "",
 });
+let isLoading = ref(false);
+let isError = ref(false);
+const rules = {
+  title: { required },
+  date: { required },
+  location: { required },
+};
+const v$ = useVuelidate(rules, formData);
+
+const clickEvent = async () => {
+  isError.value = false;
+  console.log("submit", formData);
+  v$.value.$validate();
+  if (!v$.value.$invalid) {
+    console.log("バリデーションパス、リクエスト送信");
+    // TODO: ローディングアニメーションの制御も、いちいち使う側でやりたくない | おそらくこの処理をうまくレイヤー化できれば、HTTPリクエスト・レスポンスのテスト化が可能？
+    isLoading.value = true;
+    const schedule: Schedule = {
+      title: formData.title,
+      date: formData.date,
+      location: formData.location,
+    };
+    if (!repository) {
+      return;
+    }
+    const { data } = await repository?.schedule.create(1, schedule);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    isLoading.value = false;
+    if (data === undefined) {
+      isError.value = true;
+    }
+  }
+};
 </script>
 <template>
   <div>

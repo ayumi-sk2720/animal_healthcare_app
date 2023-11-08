@@ -22,7 +22,11 @@ const BASE_URL = "http://localhost:8080/";
 /***
  * コンポーネントの表示に関する単純なテスト
  */
-describe("HelloWorld.vue", () => {
+describe("InfoPage.vue", () => {
+  // API処理のテスト
+  // hogehoge...
+
+  // データをきちんと表示できているテスト
   it("renders props.msg when passed", () => {
     const msg = "new message";
     const wrapper = shallowMount(HelloWorld, {

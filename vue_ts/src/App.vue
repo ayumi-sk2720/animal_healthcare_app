@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import FloatingButton from "@/components/parts/FloatingButton.vue";
+import { InjectionKey, provide } from "vue";
+import repositoryFactory from "./apis/repositoryFactory";
+import { key } from "./main";
 
 // TODO : Vue3を用いた「リアルタイムバリデーション」の実装方法 | https://blog.labol.co.jp/entry/real-time-validation-implementation-method
 // TODO : VueのComposition APIでフォームのバリデーション実装 | https://tech.mof-mof.co.jp/blog/validation-vue-composition-api/
@@ -41,6 +44,9 @@ import FloatingButton from "@/components/parts/FloatingButton.vue";
  * |
  * |
  */
+// Symbol --- ユニークのキーを作成できる型
+// provide("repository", repositoryFactory);
+provide(key, repositoryFactory);
 </script>
 <template>
   <div class="">
